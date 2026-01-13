@@ -1,0 +1,14 @@
+C:\Users\Deri\Documents\Formulatix\Hari1\bin\Debug\net10.0\Hari1.exe
+C:\Users\Deri\Documents\Formulatix\Hari1\bin\Debug\net10.0\Hari1.deps.json
+C:\Users\Deri\Documents\Formulatix\Hari1\bin\Debug\net10.0\Hari1.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\Hari1\bin\Debug\net10.0\Hari1.dll
+C:\Users\Deri\Documents\Formulatix\Hari1\bin\Debug\net10.0\Hari1.pdb
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.dll
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\refint\Hari1.dll
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.pdb
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\Hari1.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\Hari1\obj\Debug\net10.0\ref\Hari1.dll
