@@ -6,9 +6,20 @@ namespace NamaProyek
    {
        static void Main(string[] args)
        {
-         int maxNumber = 15;
 
-         for(int i = 1; i<= maxNumber; i++)
+        Console.Write("please input number : ");
+        int result = int.Parse(Console.ReadLine());
+
+        if(result < 1 )
+            Console.WriteLine("Minimal number 1");
+        else
+            CheckFooBar(result);
+
+       }
+
+       static void CheckFooBar(int result)
+        {
+             for(int i = 1; i<= result; i++)
          {
             if(i % 3 == 0 && i % 5 == 0)
             {
@@ -25,6 +36,6 @@ namespace NamaProyek
                 Console.WriteLine(i);
             }
          }
-       }
+        }
    }
 }
