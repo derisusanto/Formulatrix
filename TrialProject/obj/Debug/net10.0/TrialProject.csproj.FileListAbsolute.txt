@@ -1,0 +1,15 @@
+C:\Users\Deri\Documents\Formulatix\TrialProject\bin\Debug\net10.0\TrialProject.exe
+C:\Users\Deri\Documents\Formulatix\TrialProject\bin\Debug\net10.0\TrialProject.deps.json
+C:\Users\Deri\Documents\Formulatix\TrialProject\bin\Debug\net10.0\TrialProject.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\TrialProject\bin\Debug\net10.0\TrialProject.dll
+C:\Users\Deri\Documents\Formulatix\TrialProject\bin\Debug\net10.0\TrialProject.pdb
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.sourcelink.json
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.dll
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\refint\TrialProject.dll
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.pdb
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\TrialProject.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\TrialProject\obj\Debug\net10.0\ref\TrialProject.dll

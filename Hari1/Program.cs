@@ -6,7 +6,7 @@ namespace NamaProyek
    {
        static void Main(string[] args)
        {
-
+// CheckNumber();
         Console.Write("please input number : ");
         int result = int.Parse(Console.ReadLine());
 
@@ -22,20 +22,18 @@ namespace NamaProyek
              for(int i = 1; i<= result; i++)
          {
             if(i % 3 == 0 && i % 5 == 0)
-            {
             Console.WriteLine("FooBar");
-            }else if(i % 3 == 0)
-            {
+            else if(i % 3 == 0)
                Console.WriteLine("Foo");
-            }else if(i % 5 == 0)
-            {
+            else if(i % 5 == 0)
                Console.WriteLine("Bar");
-            }
             else
-            {
                 Console.WriteLine(i);
-            }
          }
+
         }
+
+ 
+    
    }
 }
