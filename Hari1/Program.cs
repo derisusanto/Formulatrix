@@ -86,7 +86,9 @@ namespace NamaProyek
             Console.WriteLine("Input harus berupa angka dan minimal 1!");
         }
     }
+    
 }
+
 
 static int HandlingChoice()
 {

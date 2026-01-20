@@ -16,10 +16,23 @@ namespace TrialProject
     //         return Name;
     //     }
     // }
+
+    delegate int Transformer(int x);
     class Program
     {
+    static int Square(int x)
+    {
+        return x * x;
+    }
      static void Main()
         {
+              Transformer t = Square;
+
+        // Run (invoke) it
+        int result = t(5);
+
+        Console.WriteLine(result);
+            
             // Panda p = new Panda{Name = "STEPEN "};
             // Console.WriteLine(p.Name);
             // int[] nilai = { 80, 90, 85 };
