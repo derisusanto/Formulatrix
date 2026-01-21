@@ -6,8 +6,10 @@ namespace Delegate;
 
 class Program
 {
-     static void Main()
+    
+    static void Main()
     {
+        // Console.WriteLine($"Hasil dari cube {y(5)}"); 
         // BasicDelegateDemo();
         // PluginMethodsDemo();
         // InstanceAndStaticMethodTargetsDemo();
@@ -17,7 +19,183 @@ class Program
         //-------------------------Event
         // BasicEventDeclarationDemo();
 
+        // Lampu lampu = new Lampu();
+        // Orang orang = new Orang();
+
+        // // 4. Subscribe event
+        // lampu.LampuMenyala += orang.DengarLampuMenyala;
+
+        // // 5. Trigger event
+        // lampu.Nyalakan();
+
+        //  Lampu lampu = new Lampu();
+        // Orang orang = new Orang();
+
+        // // Subscribe event
+        // lampu.LampuMenyala += orang.DengarLampuMenyala;
+
+        // // Trigger event + kirim data
+        // lampu.Nyalakan("Putih", 10, "Ruang Kerja");
+
+        
+    //         Damkar damkar = new Damkar();
+    //         Orang orang = new Orang();
+
+    //         damkar.PanggilDamkar += orang.DeskrispsiLaporan;
+
+    //         damkar.Memanggil(lokasiKebakaran: "Gudang", 
+    // waktuKebakaran: DateTime.Parse("2026-01-21 10:00"), 
+    // jamPanggil: DateTime.Parse("2026-01-21 10:15"));
+    // BasicBanget();
+      Note A = new Note(0);      // Nada A
+        Note C = A + 4;            // Naik 4 nada → Note C
+        Console.WriteLine(C);      // Output: Note(4)
+
+        C += 2;                    // Naik 2 nada lagi
+        Console.WriteLine(C);
     }
+
+    struct Note
+{
+    public int value; // 0 = A, 1 = A#, 2 = B, dst
+
+    public Note(int v)
+    {
+        value = v;
+    }
+
+    // Operator overloading untuk '+'
+    public static Note operator +(Note n, int x)
+    {
+        return new Note(n.value + x);
+    }
+
+    // Untuk menampilkan Note
+    public override string ToString()
+    {
+        return $"Note({value})";
+    }
+}
+
+
+// class Lampu
+// {
+//     // 1. Deklarasi event (pakai delegate bawaan)
+//     public event EventHandler LampuMenyala;
+
+//     // 2. Method untuk menyalakan lampu
+//     public void Nyalakan()
+//     {
+//         Console.WriteLine("Lampu: Menyala");
+
+//         // 3. Memicu event
+//         LampuMenyala?.Invoke(this, EventArgs.Empty);
+//     }
+// }
+
+
+// class Orang
+// {
+//     public void DengarLampuMenyala(object sender, EventArgs e)
+//     {
+//         Console.WriteLine("Orang: Saya melihat lampu menyala");
+//     }
+// }
+
+
+//----------------------------------------------------------------
+class LampuMenyalaEventArgs : EventArgs
+{
+    public string Warna { get; set; }
+    public int Daya { get; set; }
+    public string Tempat{get;set;} = "";
+}
+
+
+// class Lampu
+// {
+//     // Event membawa data
+//     public event EventHandler<LampuMenyalaEventArgs> LampuMenyala;
+
+//     public void Nyalakan(string warna, int daya, string tempat = "Kamar")
+//     {
+//         Console.WriteLine($"Lampu menyala warna {warna}");
+
+//         // Kirim data lewat event
+//         LampuMenyala?.Invoke(this, new LampuMenyalaEventArgs
+//         {
+//             Warna = warna,
+//             Daya = daya,
+//             Tempat = tempat
+//         });
+//     }
+// }
+
+// class Orang
+// {
+//     public void DengarLampuMenyala(object sender, LampuMenyalaEventArgs e)
+//     {
+//         Console.WriteLine(
+//             $"Orang: Lampu di {e.Tempat} aku berwarna {e.Warna}, dan untuk dayanya {e.Daya} watt"
+//         );
+//     }
+// }
+
+    class PanggilDamkarEventArgs : EventArgs
+    {
+        public DateTime JamPanggil {get; set;}
+        public DateTime WaktuKebakaran {get; set;}
+        public string LokasiKebakaran {get; set;}
+    }
+
+    class Damkar
+    {
+        public event EventHandler<PanggilDamkarEventArgs> PanggilDamkar;
+
+        public void Memanggil(DateTime jamPanggil = default, DateTime waktuKebakaran = default, string lokasiKebakaran = "Belum Di kertahui")
+        {
+            if(jamPanggil == default) jamPanggil = DateTime.Now;
+            if(waktuKebakaran == default) waktuKebakaran = DateTime.Now;
+
+            Console.WriteLine("MELAPORKAN TERJADI KEBAKARAN");
+
+            PanggilDamkar?.Invoke(this, new PanggilDamkarEventArgs
+            {
+                JamPanggil = jamPanggil,
+                WaktuKebakaran = waktuKebakaran,
+                LokasiKebakaran = lokasiKebakaran
+
+            });
+        }
+    }
+
+    class Orang
+    {
+        public void DeskrispsiLaporan(object sender, PanggilDamkarEventArgs e)
+        {
+            Console.WriteLine($"WAKTU PANGGILAN : {e.JamPanggil.ToString("HH:mm")} ");
+            Console.WriteLine($"LOKASI KEBAKARAN : {e.LokasiKebakaran}");
+            Console.WriteLine($"WAKTU PANGGILAN : {e.WaktuKebakaran.ToString("HH:mm")} ");
+        }
+    }
+
+        delegate int Tranformer(int x);
+        static int Cubes(int x)=> x * 3;
+        static void Transformin(int[] values, Tranformer t)
+        {
+            for(int i=0; i < values.Length; i++)
+            {
+                values[i] = t(values[i]);
+            }
+        }
+        static void BasicBanget()
+    {
+        int[] values = {1,2,3,4,5,6};
+        Transformin(values,Cubes);
+         Console.WriteLine($"Values: [{string.Join(", ", values)}]");
+    }
+
+
    
       delegate int Transformer(int x);
         static int Square(int x) => x * x;
