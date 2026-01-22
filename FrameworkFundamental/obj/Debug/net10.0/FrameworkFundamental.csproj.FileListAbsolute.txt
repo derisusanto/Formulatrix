@@ -1,0 +1,15 @@
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.sourcelink.json
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\bin\Debug\net10.0\FrameworkFundamental.exe
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\bin\Debug\net10.0\FrameworkFundamental.deps.json
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\bin\Debug\net10.0\FrameworkFundamental.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\bin\Debug\net10.0\FrameworkFundamental.dll
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\bin\Debug\net10.0\FrameworkFundamental.pdb
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.dll
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\refint\FrameworkFundamental.dll
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.pdb
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\FrameworkFundamental.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\FrameworkFundamental\obj\Debug\net10.0\ref\FrameworkFundamental.dll

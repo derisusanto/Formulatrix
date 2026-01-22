@@ -47,12 +47,13 @@ class Program
     // waktuKebakaran: DateTime.Parse("2026-01-21 10:00"), 
     // jamPanggil: DateTime.Parse("2026-01-21 10:15"));
     // BasicBanget();
-      Note A = new Note(0);      // Nada A
-        Note C = A + 4;            // Naik 4 nada → Note C
-        Console.WriteLine(C);      // Output: Note(4)
+    //   Note A = new Note(0);      // Nada A
+    //     Note C = A + 4;            // Naik 4 nada → Note C
+    //     Console.WriteLine(C);      // Output: Note(4)
 
-        C += 2;                    // Naik 2 nada lagi
-        Console.WriteLine(C);
+    //     C += 2;                    // Naik 2 nada lagi
+    //     Console.WriteLine(C);
+
     }
 
     struct Note
