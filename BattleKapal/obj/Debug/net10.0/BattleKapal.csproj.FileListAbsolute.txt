@@ -1,0 +1,15 @@
+C:\Users\Deri\Documents\Formulatix\BattleKapal\bin\Debug\net10.0\BattleKapal.exe
+C:\Users\Deri\Documents\Formulatix\BattleKapal\bin\Debug\net10.0\BattleKapal.deps.json
+C:\Users\Deri\Documents\Formulatix\BattleKapal\bin\Debug\net10.0\BattleKapal.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\BattleKapal\bin\Debug\net10.0\BattleKapal.dll
+C:\Users\Deri\Documents\Formulatix\BattleKapal\bin\Debug\net10.0\BattleKapal.pdb
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.sourcelink.json
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.dll
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\refint\BattleKapal.dll
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.pdb
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\BattleKapal.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\BattleKapal\obj\Debug\net10.0\ref\BattleKapal.dll

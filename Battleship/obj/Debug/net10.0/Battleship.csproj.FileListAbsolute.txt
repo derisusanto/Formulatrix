@@ -1,0 +1,15 @@
+C:\Users\Deri\Documents\Formulatix\Battleship\bin\Debug\net10.0\Battleship.exe
+C:\Users\Deri\Documents\Formulatix\Battleship\bin\Debug\net10.0\Battleship.deps.json
+C:\Users\Deri\Documents\Formulatix\Battleship\bin\Debug\net10.0\Battleship.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\Battleship\bin\Debug\net10.0\Battleship.dll
+C:\Users\Deri\Documents\Formulatix\Battleship\bin\Debug\net10.0\Battleship.pdb
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.sourcelink.json
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.dll
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\refint\Battleship.dll
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.pdb
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\Battleship.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\Battleship\obj\Debug\net10.0\ref\Battleship.dll
