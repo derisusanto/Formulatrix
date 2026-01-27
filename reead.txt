@@ -1,0 +1,189 @@
+---
+config:
+  layout: dagre
+---
+classDiagram
+direction TB
+
+class Game {
+  - players : List~Player~
+  - boards : Dictionary~PlayerId, Board~
+  - currentTurnIndex : int
+  - state : GameState
+
+  + Start(players : List~Player~)
+  + PlaceShip(playerId: PlayerId, ship: Ship, position: Position, orientation: Orientation)
+  + FireShot(playerId: PlayerId, position: Position) : ShotResult
+  + CanPlaceShip(playerId: PlayerId, ship: Ship, position: Position, orientation: Orientation) : bool
+  + CanReceiveShot(playerId: PlayerId, position: Position) : bool
+  + CheckWinner() : PlayerId?
+  - ToIndex(position: Position) : (rowIndex:int, colIndex:int)
+}
+
+class Player {
+  + Id : PlayerId
+  + Name : string
+}
+
+class PlayerId {
+  <<value object>>
+  + Value : string
+}
+
+class Board {
+  - Grid : int[,]
+  - Ships : List~Ship~
+
+  + Board(size:int)
+  + PlaceShip(ship: Ship, position: Position, orientation: Orientation) : void
+  + MarkShot(position: Position) : void
+  + HasShipAt(position: Position) : bool
+  + IsShotAt(position: Position) : bool
+}
+
+class Ship {
+  + Type : ShipType
+  + Size : int
+  - HitCount : int
+  - Positions : List~Position~
+
+  + RegisterHit() : void
+  + IsSunk() : bool
+}
+
+class Position {
+  + Row : int
+  + Col : char
+}
+
+class GameState {
+  <<enumeration>>
+  Setup
+  InProgress
+  Finished
+}
+
+class ShotResult {
+  <<enumeration>>
+  Miss
+  Hit
+  Sink
+}
+
+class Orientation {
+  <<enumeration>>
+  Horizontal
+  Vertical
+}
+
+class ShipType {
+  <<enumeration>>
+  Carrier
+  Battleship
+  Cruiser
+}
+
+Game --> Player
+Game --> Board
+Player --> PlayerId
+Board *-- Ship
+Ship --> ShipType
+---------------------------
+---
+config:
+  layout: dagre
+---
+classDiagram
+direction TB
+
+class Game {
+  - players : List~Player~
+  - boards : Dictionary~PlayerId, Board~
+  - currentTurnIndex : int
+  - state : GameState
+  - shotHistory : List~Position~
+
+  + Start(players : List~Player~)
+  + PlaceShip(playerId: PlayerId, ship: Ship, position: Position, orientation: Orientation)
+  + FireShot(playerId: PlayerId, position: Position)
+  + CanPlaceShip(playerId: PlayerId, ship: Ship, position: Position, orientation: Orientation) : bool
+  + CanReceiveShot(playerId: PlayerId, position: Position) : bool
+  + CheckWinner() : PlayerId?
+  - ToIndex(position: Position) : (rowIndex:int, colIndex:int)
+}
+
+class Player {
+  + Id : PlayerId
+  + Name : string
+}
+
+class PlayerId {
+  <<value object>>
+  + Value : string
+}
+
+class Board {
+  - Rows : int
+  - Columns : int
+  - Grid : Cell[,]
+  - Ships : List~Ship~
+
+  + Board(rows:int, columns:int)
+}
+
+class Cell {
+  + Position : Position
+  + Ship : Ship?
+  + IsHit : bool
+
+  + Hit()
+}
+
+class Ship {
+  + Type : ShipType
+  + Size : int
+  - HitCount : int
+
+  + RegisterHit()
+  + IsSunk() : bool
+}
+
+class Position {
+  + Row : int
+  + Col : char
+}
+
+class GameState {
+  <<enumeration>>
+  Setup
+  InProgress
+  Finished
+}
+
+class ShotResult {
+  <<enumeration>>
+  Miss
+  Hit
+  Sink
+}
+
+class Orientation {
+  <<enumeration>>
+  Horizontal
+  Vertical
+}
+
+class ShipType {
+  <<enumeration>>
+  Carrier
+  Battleship
+  Cruiser
+}
+
+Game --> Player
+Game --> Board
+Player --> PlayerId
+Board *-- Cell
+Board *-- Ship
+Cell --> Position
+Ship --> ShipType
