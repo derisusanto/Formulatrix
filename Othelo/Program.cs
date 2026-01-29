@@ -484,7 +484,13 @@ public class Program
                 else if (cell.Piece?.Color == PieceColor.Black)
                     Console.Write("B ");
                 else if (cell.Piece?.Color == PieceColor.White)
-                    Console.Write("W ");
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black; // buat lebih terlihat
+                    Console.Write("● ");
+                    Console.ResetColor();
+                }
+                    
                 else
                     Console.Write(". ");
             }
