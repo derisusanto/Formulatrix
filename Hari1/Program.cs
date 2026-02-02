@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NamaProyek
 {
@@ -23,6 +24,7 @@ namespace NamaProyek
                 Console.WriteLine("=> Ketik 1 untuk Check FooBarr");
                 Console.WriteLine("=> Ketik 2 untuk Check FooBarrJazz");
                 Console.WriteLine("=> Ketik 3 untuk Check FooBazzBarrJazzHuzz");
+                Console.WriteLine("=> Ketik 4 Untuk Buat Aturan Sendiri");
                 Console.WriteLine("=> Ketik 0 untuk Keluar");
                 Console.WriteLine("--------------------------------------");
 
@@ -42,11 +44,16 @@ namespace NamaProyek
                     case 3:
                         CheckFooBarBazJazzHuzz();
                         break;
+                     case 4:
+                        InputRules();
+                        break;
+
                 }
 
                 Console.WriteLine("\nTekan ENTER untuk kembali ke menu...");
                 Console.ReadLine();
             }
+       
        }
 
   
@@ -161,7 +168,7 @@ static int HandlingChoice()
     {
         Console.Write("Silahkan Pilih Angka : ");
         string? input = Console.ReadLine();
-        int[] validChoices = { 0, 1, 2, 3 };
+        int[] validChoices = { 0, 1, 2, 3, 4 };
 
 if (int.TryParse(input, out result) && validChoices.Contains(result))  {
           
@@ -179,7 +186,75 @@ if (int.TryParse(input, out result) && validChoices.Contains(result))  {
                 Console.WriteLine("--------------------------------------");
         }
     }
+ }
+
+ static void InputRules()
+        {
+        CreateRules printer = new CreateRules();
+
+        Console.Write("Berapa rule yang mau ditambahkan? ");
+        int jumlahRule = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < jumlahRule; i++)
+        {
+            Console.WriteLine($"Rules {i+1}, Contoh => Angka : 1, Text : Foo");
+            Console.WriteLine("-----------------------------");
+            Console.Write("Masukkan Angka Pembagi: ");
+            int input = int.Parse(Console.ReadLine());
+
+            Console.Write("Text yang di Tampilkan: ");
+            string output = Console.ReadLine();
+
+            printer.AddRule(input, output);
+            Console.WriteLine("-----------------------------");
+        }
+
+        Console.Write("Print sampai angka berapa? ");
+        int n = int.Parse(Console.ReadLine());
+
+        printer.Print(n);
+        }
+
 }
 
-   }
+
+
+
+class CreateRules
+{
+    
+    Dictionary<int, string> rules = new Dictionary<int, string>();
+
+  
+    public void AddRule(int input, string output)
+    {
+        rules.Add(input, output);
+    }
+    public void Print(int n)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            string result = "";
+
+            foreach (var rule in rules)
+            {
+                if (i % rule.Key == 0)
+                {
+                    result = result + rule.Value;
+                }
+            }
+
+            if (result == "")
+            {
+                Console.WriteLine(i);
+            }
+            else
+            {
+                Console.WriteLine(result);
+            }
+        }
+    }
 }
+
+}
+

@@ -1,0 +1,15 @@
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.AssemblyInfoInputs.cache
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.AssemblyInfo.cs
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.csproj.CoreCompileInputs.cache
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.sourcelink.json
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\bin\Debug\net10.0\Disposal_GC.exe
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\bin\Debug\net10.0\Disposal_GC.deps.json
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\bin\Debug\net10.0\Disposal_GC.runtimeconfig.json
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\bin\Debug\net10.0\Disposal_GC.dll
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\bin\Debug\net10.0\Disposal_GC.pdb
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.dll
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\refint\Disposal_GC.dll
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.pdb
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\Disposal_GC.genruntimeconfig.cache
+C:\Users\Deri\Documents\Formulatix\Disposal_GC\obj\Debug\net10.0\ref\Disposal_GC.dll
