@@ -465,38 +465,73 @@ public class Program
     }
 
     // Print board dengan tanda '*' untuk valid moves
-    static void PrintBoard(IBoard board, GameController game)
+static void PrintBoard(IBoard board, GameController game)
+{
+    Console.Clear();
+    int size = board.Size;
+
+    // Header kolom
+    Console.Write("   ");
+    for (int c = 0; c < size; c++)
+        Console.Write($" {c}  ");
+    Console.WriteLine();
+
+    // Garis atas
+    Console.Write("  ┌");
+    for (int c = 0; c < size; c++)
+        Console.Write("───" + (c < size - 1 ? "┬" : "┐"));
+    Console.WriteLine();
+
+    for (int r = 0; r < size; r++)
     {
-        Console.Clear();
-        Console.Write("   ");
-        for (int c = 0; c < board.Size; c++)
-            Console.Write($" {c}");
+        Console.Write($"{r} │");
+        for (int c = 0; c < size; c++)
+        {
+            var cell = board.Cells[r, c];
+
+            if (cell.Piece == null && game.IsValidMove(new Position(r, c), game.CurrentPlayer.Color))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(" * "); // valid move
+            }
+            else if (cell.Piece != null && cell.Piece.Color == PieceColor.Black)
+            {
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.Write(" ● ");
+            }
+            else if (cell.Piece != null && cell.Piece.Color == PieceColor.White)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.Write(" ● ");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(" . "); // empty cell
+            }
+
+            Console.ResetColor();
+            Console.Write("│");
+        }
         Console.WriteLine();
 
-        for (int r = 0; r < board.Size; r++)
+        if (r < size - 1)
         {
-            Console.Write($"{r} | ");
-            for (int c = 0; c < board.Size; c++)
-            {
-                var cell = board.Cells[r, c];
-                if (cell.Piece == null && game.IsValidMove(new Position(r, c), game.CurrentPlayer.Color))
-                    Console.Write("* "); // tanda valid move
-                else if (cell.Piece?.Color == PieceColor.Black)
-                    Console.Write("B ");
-                else if (cell.Piece?.Color == PieceColor.White)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black; // buat lebih terlihat
-                    Console.Write("W ");
-                    Console.ResetColor();
-                }
-                    
-                else
-                    Console.Write(". ");
-            }
+            Console.Write("  ├");
+            for (int c = 0; c < size; c++)
+                Console.Write("───" + (c < size - 1 ? "┼" : "┤"));
             Console.WriteLine();
         }
     }
+
+    // Garis bawah
+    Console.Write("  └");
+    for (int c = 0; c < size; c++)
+        Console.Write("───" + (c < size - 1 ? "┴" : "┘"));
+    Console.WriteLine();
+}
 }
 
 #endregion

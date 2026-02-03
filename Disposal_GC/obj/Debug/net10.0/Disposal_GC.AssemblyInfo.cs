@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Disposal_GC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7715184db99b5b46bf4ac70fa888f0377cc7fad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cdc42c3a476839d94ff923b8f633368706dbbba")]
 [assembly: System.Reflection.AssemblyProductAttribute("Disposal_GC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Disposal_GC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
