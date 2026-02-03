@@ -20,7 +20,7 @@ public class Program
 
         string color = Console.ReadLine();
         Console.WriteLine(color);
-        var playerPieceColor = "1" ? PlayerColor.Black : playerColor.White;
+        var playerPieceColor = color == "1" ? PlayerColor.Black : PlayerColor.White;
 
         Console.Write("Input Name Player 2 : ");
         string Player2 = Console.ReadLine();
