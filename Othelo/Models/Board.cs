@@ -8,8 +8,8 @@ public class Board : IBoard
         Size = size;
         Cells = new ICell[size, size];
 
-        for (int r = 0; r < size; r++)
-        for (int c = 0; c < size; c++)
-            Cells[r, c] = new Cell(new Position(r, c));
+        // for (int r = 0; r < size; r++)
+        // for (int c = 0; c < size; c++)
+        //     Cells[r, c] = new Cell(new Position(r, c));
     }
 }

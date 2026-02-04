@@ -28,9 +28,17 @@ public class GameController
 
     public void StartGame()
     {
+        InitializeBoardCells();
         InitializeBoard();
         RaiseBoardUpdated();
         RaiseTurnChanged();
+    }
+
+    private void InitializeBoardCells()
+    {
+        for (int r = 0; r < _board.Size; r++)
+            for (int c = 0; c < _board.Size; c++)
+                _board.Cells[r, c] = new Cell(new Position(r, c));
     }
 
   public bool PlayAt(Position position)
@@ -43,25 +51,25 @@ public class GameController
     if (!IsValidMove(position, player.Color))
         return false;
 
-    // 1️⃣ Hitung piece yang bisa dibalik
+    // 1 Hitung piece yang bisa dibalik
     var flippable = GetFlippablePositions(position, player.Color);
 
-    // 2️⃣ Lakukan move
-    MakeMove(position); // ✅ di dalam ini sudah PlacePiece + reset _counterPasses + SwitchTurn
+    // 2️Lakukan move
+    MakeMove(position); 
 
-    // 3️⃣ Flip piece
+    //  Flip piece
     FlipPieces(flippable);
 
-    // 4️⃣ Update board UI / event
+    // Update board UI / event
     RaiseBoardUpdated();
 
-    // 5️⃣ Jika giliran pemain baru tidak bisa move → skip turn
+    // Jika giliran pemain baru tidak bisa move → skip turn
     if (!HasAnyValidMove(CurrentPlayer.Color))
     {
         SwitchTurn();
     }
 
-    // 6️⃣ Cek game over
+    //  Cek game over
     if (CheckGameOver())
     {
         _isGameOver = true;

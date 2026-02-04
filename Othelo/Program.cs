@@ -1,27 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 
 
-#region CONSOLE UI / ENTRY POINT
+// #region CONSOLE UI / ENTRY POINT
 
 public class Program
 {
     static void Main()
     {
+                Console.Clear();
+        Console.WriteLine(@"
+        ██████╗ ████████╗██╗  ██╗███████╗██╗     ██╗      ██████╗ 
+        ██╔═══██╗╚══██╔══╝██║  ██║██╔════╝██║     ██║     ██╔═══██╗
+        ██║   ██║   ██║   ███████║█████╗  ██║     ██║     ██║   ██║
+        ██║   ██║   ██║   ██╔══██║██╔══╝  ██║     ██║     ██║   ██║
+        ╚██████╔╝   ██║   ██║  ██║███████╗███████╗███████╗╚██████╔╝
+        ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝ 
+        ");
+        Thread.Sleep(500);
+        Console.WriteLine("                  =====================================");
+        Console.WriteLine("                           W E L C O M E   T O");
+        Console.WriteLine("                              O T H E L L O");
+        Console.WriteLine("                  =====================================");
+        
+        Thread.Sleep(1000);
+        Console.WriteLine("Rules:");
+        Console.WriteLine("- Game dimainkan oleh 2 pemain");
+        Console.WriteLine("- Black selalu jalan lebih dulu");
+        Console.WriteLine("- Batu lawan akan dibalik jika terjepit");
+        Console.WriteLine();
+       while (!Console.KeyAvailable)
+            {
+                Console.Write("\rPress ENTER to start...   ");
+                Thread.Sleep(500);
+
+                Console.Write("\r                        ");
+                Thread.Sleep(500);
+            }
+
+            Console.ReadKey(true); // ambil ENTER
+            Console.Clear();;
+        ;
+
+        
+
         var board = new Board(8); // papan 8x8
         Console.Write("Input Name Player 1 : ");
         string Player1 = Console.ReadLine();
-
-        Console.WriteLine("===== Select Piece =====");
-        Console.WriteLine("1 - Black ");
-        Console.WriteLine("2 - White ");
-
-        string color = Console.ReadLine();
-        Console.WriteLine(color);
-        var playerPieceColor = "1" ? PlayerColor.Black : playerColor.White;
-
+      
         Console.Write("Input Name Player 2 : ");
         string Player2 = Console.ReadLine();
 
@@ -157,4 +186,4 @@ static void PrintBoard(IBoard board, GameController game)
 }
 }
 
-#endregion
+

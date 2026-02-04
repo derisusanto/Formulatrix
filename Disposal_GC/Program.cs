@@ -173,28 +173,98 @@
 //         }
 //     }
 // }
+// using System;
+// using System.Threading;
+// using System.Threading.Tasks;
+
+// class Program
+// {
+//     static async Task Foo(IProgress<int> onProgressPercentChanged)
+//     {
+//         await Task.Run(() =>
+//         {
+//             for (int i = 0; i < 1000; i++)
+//             {
+//                 if (i % 10 == 0) onProgressPercentChanged.Report(i / 10);
+//                 Thread.Sleep(1);
+//             }
+//         });
+//     }
+
+//     static async Task Main()
+//     {
+//         var progress = new Progress<int>(i => Console.WriteLine($"Progress: {i}%"));
+//         await Foo(progress);
+//         Console.WriteLine("Selesai!");
+//     }
+// }
+
+// using System;
+// using System.IO;
+// using System.Text;
+
+
+// namespace FileHandlinDemo
+// {
+//     class Program
+//     {
+//         static void Main(string[] args)
+//         {
+//             string FilePath = @"C:\Users\Deri\Documents\MyFile.txt";
+//             FileStream fileStream = new FileStream(FilePath, FileMode.Create);
+//             fileStream.Close();
+//             Console.Write("File telah dibuat di D:\\MyFile.txt");
+//             Console.ReadKey();
+//         }
+//     }
+// }
 using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
+using System.Xml.Serialization;
+
+// Kelas yang bisa diserialisasi
+[Serializable]
+public class Tutorial
+{
+    public int ID { get; set; }
+    public string Name { get; set; }
+}
 
 class Program
 {
-    static async Task Foo(IProgress<int> onProgressPercentChanged)
+    static void Main(string[] args)
     {
-        await Task.Run(() =>
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                if (i % 10 == 0) onProgressPercentChanged.Report(i / 10);
-                Thread.Sleep(1);
-            }
-        });
-    }
+        // Membuat objek Tutorial
+        Tutorial t1 = new Tutorial();
+        t1.ID = 1;
+        t1.Name = ".Net";
 
-    static async Task Main()
-    {
-        var progress = new Progress<int>(i => Console.WriteLine($"Progress: {i}%"));
-        await Foo(progress);
-        Console.WriteLine("Selesai!");
+        // Membuat FileStream untuk menulis objek
+        FileStream fs = new FileStream("Example.xml", FileMode.Create);
+
+        // Membuat XML serializer untuk serialisasi
+        XmlSerializer xs = new XmlSerializer(typeof(Tutorial));
+
+        // Serialisasi objek ke FileStream
+        xs.Serialize(fs, t1);
+
+        // Menutup FileStream
+        fs.Close();
+
+        // Membuat FileStream lain untuk membaca objek
+        FileStream fs2 = new FileStream("Example.xml", FileMode.Open);
+
+        // Membuat XML serializer lain untuk deserialisasi
+        XmlSerializer xs2 = new XmlSerializer(typeof(Tutorial));
+
+        // Deserialisasi objek
+        Tutorial t2 = (Tutorial)xs2.Deserialize(fs2);
+
+        // Menutup FileStream
+        fs2.Close();
+
+        // Menampilkan properti objek yang dideserialisasi
+        Console.WriteLine("ID: {0}", t2.ID);
+        Console.WriteLine("Name: {0}", t2.Name);
     }
 }
