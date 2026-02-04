@@ -50,7 +50,15 @@ public class Program
         var board = new Board(8); // papan 8x8
         Console.Write("Input Name Player 1 : ");
         string Player1 = Console.ReadLine();
-      
+
+        Console.WriteLine("===== Select Piece =====");
+        Console.WriteLine("1 - Black ");
+        Console.WriteLine("2 - White ");
+
+        string color = Console.ReadLine();
+        Console.WriteLine(color);
+        var playerPieceColor = color == "1" ? PlayerColor.Black : PlayerColor.White;
+
         Console.Write("Input Name Player 2 : ");
         string Player2 = Console.ReadLine();
 
