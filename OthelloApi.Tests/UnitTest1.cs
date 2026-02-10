@@ -35,7 +35,7 @@ public class Tests
     }
 
     [Test]
-    public void PlayAt_ValidReturn_SouldReturnSuccess()
+    public void PlayAt_InputValid_ReturnTrue()
     {
         var pos = new Position(3,2);
         ServiceResult<bool> result = _game.PlayAt(pos);
@@ -46,7 +46,7 @@ public class Tests
     [TestCase(1,1)]
     [TestCase(1,2)]
     [TestCase(0,1)]
-    public void PlayAt_InValidReturn_SouldReturnFail(int row, int col)
+    public void PlayAt_InputValid_ReturnFalse(int row, int col)
     {   
         
         var pos = new Position(row,col);
@@ -55,8 +55,10 @@ public class Tests
 
         Assert.That(invalidResul.Success, Is.False, "Tidak ada kolom");
     }
+
+
     [Test]
-    public void IsValidMove_ValidReturn_SouldReturnSuccess()
+    public void IsValidMove_InputValid_ReturnTrue()
     {
         var pos = new Position(3,2);
         var result = _game.IsValidMove(pos, PlayerColor.Black);
@@ -65,7 +67,7 @@ public class Tests
 
     }
     [Test]
-    public void IsValidMove_FailReturn_SouldReturnFail()
+    public void IsValidMove_InputInvalid_ReturnFalse()
     {
         var pos = new Position(3,3);
 
@@ -74,7 +76,35 @@ public class Tests
 
          Assert.That(result, Is.False);
     }
+    [Test]
+    public void GetScore_EmptyBoard_ShouldFail()
+    {
+         var players = new List<IPlayer>
+    {
+        new Player("A", PlayerColor.Black),
+        new Player("B", PlayerColor.White)
+    };
 
-   
+    var board = new Board(0); // board 0
+    var game = new GameController();
+    game.StartNewGame(players, board);
+
+    var result = game.GetScore();
+
+    Assert.That(result.Success, Is.True);
+    Assert.That(result.Data.Black, Is.EqualTo(0));
+    Assert.That(result.Data.White, Is.EqualTo(0));
+    }
+
+   [Test]
+    public void GetScore_Input2_ReturnScore()
+    {
+
+        var result = _game.GetScore();
+
+        Assert.That(result.Success, Is.True);
+        Assert.That(result.Data.Black, Is.EqualTo(2));
+        Assert.That(result.Data.White, Is.EqualTo(2));
+    }
   
 }
