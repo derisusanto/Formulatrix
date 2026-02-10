@@ -1,4 +1,4 @@
-#region GAME CONTROLLER
+// #region GAME CONTROLLER
 
 public class GameController
 {
@@ -24,7 +24,7 @@ public class GameController
     public IPlayer CurrentPlayer => _players[_currentPlayerIndex];
     public bool IsGameOver => _isGameOver;
 
-    #region PUBLIC API
+    // #region PUBLIC API
 
     public void StartGame()
     {
@@ -54,9 +54,8 @@ public class GameController
     // 1 Hitung piece yang bisa dibalik
     var flippable = GetFlippablePositions(position, player.Color);
 
-    // 2️Lakukan move
+    //  Lakukan move
     MakeMove(position); 
-
     //  Flip piece
     FlipPieces(flippable);
 
@@ -86,7 +85,7 @@ public class GameController
 
     SwitchTurn();
 
-    // 3️⃣ Cek game over: 
+    //  Cek game over: 
     // - board penuh atau
     // - semua pemain pass berturut-turut
     if (CheckGameOver())
@@ -113,9 +112,9 @@ public class GameController
         return null; // draw
     }
 
-    #endregion
+    // #endregion
 
-    #region CORE LOGIC
+    // #region CORE LOGIC
 
     private void InitializeBoard()
     {
@@ -249,9 +248,9 @@ public class GameController
         return true;
     }
 
-    #endregion
+    // #endregion
 
-    #region HELPERS & EVENTS
+    // #region HELPERS & EVENTS
 
     private bool IsInsideBoard(int r, int c) => r >= 0 && r < _board.Size && c >= 0 && c < _board.Size;
 
@@ -278,7 +277,7 @@ public class GameController
     private void RaiseBoardUpdated() => BoardUpdated?.Invoke(_board);
     private void RaiseGameEnded(IPlayer? winner) => GameEnded?.Invoke(winner);
 
-    #endregion
+    // #endregion
 }
 
-#endregion
+// #endregion

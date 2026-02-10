@@ -57,8 +57,9 @@ public class Program
 
         var players = new List<IPlayer>
         {
-            new Player(Player1??"Player 1", PlayerColor.Black),
-            new Player(Player2??"Player 2", PlayerColor.White)
+            new Player(!string.IsNullOrWhiteSpace(Player1) ? Player1 : "Player 1", PlayerColor.Black),
+            new Player(!string.IsNullOrWhiteSpace(Player2) ? Player2 : "Player 2", PlayerColor.White)
+
         };
 
         var game = new GameController(players, board);
@@ -121,11 +122,10 @@ static void PrintBoard(IBoard board, GameController game)
 {
     Console.Clear();
     int size = board.Size;
-
     // Header kolom
     Console.Write("   ");
     for (int c = 0; c < size; c++)
-        Console.Write($" {c}  ");
+    Console.Write($" {c}  ");
     Console.WriteLine();
 
     // Garis atas
