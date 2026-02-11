@@ -241,15 +241,27 @@ namespace OthelloAPI.Services
         {
             // Board penuh
             if (_board.Cells.Cast<Cell>().All(c => c.Piece != null))
-                return true;
+            {
+                 _logger.LogInformation("Board sudah penuh");
+                 return true;
 
+            }
+                
             // Semua pemain tidak punya move
             if (!HasAnyValidMove(PlayerColor.Black) && !HasAnyValidMove(PlayerColor.White))
-                return true;
+            {
+                _logger.LogInformation("Setiap player tidak memiliki langkah lagi");
+                return true;   
+            }
+             
 
             // Semua pemain pass berturut-turut
             if (_counterPasses >= _players.Count)
-                return true;
+                {
+                _logger.LogInformation("Counter pass udah berjumlah {_counterPasses}",_counterPasses);
+                return true;   
+            }
+             
 
             return false;
         }
@@ -257,7 +269,11 @@ namespace OthelloAPI.Services
         public ServiceResult<ScoreDto>  GetScore()
         {
             if (_board == null || _board.Cells == null)
-                return ServiceResult<ScoreDto>.Fail("Board belum diinisialisasi");
+            {
+                  _logger.LogWarning("GetScore dipanggil tapi board belum diinisialisasi");
+                 return ServiceResult<ScoreDto>.Fail("Board belum diinisialisasi");
+            }
+               
 
             var score = new ScoreDto();
 
@@ -268,6 +284,7 @@ namespace OthelloAPI.Services
                 if (cell.Piece.Color == PieceColor.Black) score.Black++;
                 else if (cell.Piece.Color == PieceColor.White) score.White++;
             }
+               _logger.LogInformation("Score dihitung: Black {Black} - White {White}", score.Black, score.White);
 
             return ServiceResult<ScoreDto>.Ok(score);
         }
