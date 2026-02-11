@@ -1,0 +1,443 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Othello";
+    <link rel="stylesheet" href="~/css/style.css" />
+}
+
+
+<div id="welcome-page" class="welcome-page">
+    <!-- Loading Screen Overlay -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="logo" style="width:120px;height:120px;background:radial-gradient(circle at 30% 30%, #00d4aa, #00a896);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#0a0a0f;font-weight:800;">O</div>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Welcome Content -->
+    <div class="welcome-content hidden">
+        <div style="width:180px;height:180px;background:linear-gradient(135deg, #2d5a27 0%, #1e4620 100%);border-radius:20px;margin:0 auto 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(46, 125, 50, 0.3);">
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:radial-gradient(circle at 30% 30%, #fff, #d0d0d0);border-radius:50%;"></div>
+            <div style="background:radial-gradient(circle at 30% 30%, #444, #000);border-radius:50%;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:radial-gradient(circle at 30% 30%, #444, #000);border-radius:50%;"></div>
+            <div style="background:radial-gradient(circle at 30% 30%, #fff, #d0d0d0);border-radius:50%;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+            <div style="background:#388e3c;border-radius:4px;"></div>
+        </div>
+        <h1>Welcome to Othello!</h1>
+        <p>Challenge your friend in a classic strategy game</p>
+        <button onclick="showPlayerForm()">Start Game</button>
+    </div>
+
+    <!-- Animated Background Circles -->
+    <div class="bg-circles">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+</div>
+
+<script>
+// Simulate loading
+window.addEventListener("DOMContentLoaded", () => {
+    const loadingScreen = document.getElementById("loading-screen");
+    const welcomeContent = document.querySelector(".welcome-content");
+    
+    setTimeout(() => {
+        if (loadingScreen) loadingScreen.classList.add("hidden");
+        if (welcomeContent) welcomeContent.classList.remove("hidden");
+    }, 2000);
+});
+
+function showPlayerForm() {
+    const welcomePage = document.getElementById("welcome-page");
+    const formPage = document.getElementById("player-form");
+    
+    if (welcomePage) welcomePage.classList.add("hidden");
+    if (formPage) formPage.classList.remove("hidden");
+}
+</script>
+
+
+<div id="player-form" class="hidden">
+    <div class="card">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold"> Setup Players</h3>
+            <p class="text-muted">Enter player names to start the game</p>
+        </div>
+
+        <form method="post" onsubmit="onSubmit(event)">
+            <div class="mb-3">
+                <label class="form-label fw-semibold"> Player 1 - Black</label>
+                <input type="text" name="Player1" value="" id="player1" class="form-control"
+                       placeholder="Enter Player 1 name" required />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold"> Player 2 - White</label>
+                <input type="text" name="Player2" id="player2" class="form-control" value=""
+                       placeholder="Enter Player 2 name" required />
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn-dark">
+                     Start Game
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div id="game-board" class="hidden">
+    <h2>Othello</h2>
+    
+    <!-- Score Card -->
+    <div class="score-card">
+        <div id="player1Card" class="player-half">
+            <div class="player-name" id="player1Name"> Player 1</div>
+            <div class="score" id="player1Score">2</div>
+        </div>
+        <div id="player2Card" class="player-half">
+            <div class="player-name" id="player2Name"> Player 2</div>
+            <div class="score" id="player2Score">2</div>
+        </div>
+    </div>
+
+    <!-- Game Board -->
+    <div id="board" class="board"></div>
+
+    <!-- Invalid Move Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="invalidMoveToast" class="toast text-bg-danger border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                     Invalid move! Choose a valid position.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button onclick="passTurn()">Pass</button>
+    </div>
+<audio id="keyboardSound" src="~/sound/mixkit-single-key-type-2533.wav"></audio>
+<audio id="keyboardSoundError" src="~/sound/error.wav"></audio>
+    <!-- Game Over Overlay -->
+    <div id="gameOverlay" class="game-overlay d-none">
+        <div class="game-result-card">
+            <div id="resultIcon" class="result-icon">🏆</div>
+            <h1 id="resultTitle">Winner!</h1>
+            <p id="resultWinner" class="result-winner"></p>
+            <div id="resultScore" class="result-score">
+                <span class="score-item">
+                    <span class="score-label">⚫</span>
+                    <span id="blackFinalScore">0</span>
+                </span>
+                <span class="score-vs">vs</span>
+                <span class="score-item">
+                    <span class="score-label">⚪</span>
+                    <span id="whiteFinalScore">0</span>
+                </span>
+            </div>
+
+            <div class="result-buttons">
+                <button onclick="startGame()">Play Again</button>
+                <button onclick="goToMenu()"> Menu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const form = document.getElementById("player-form");
+    const board = document.getElementById("game-board");
+    const boardDiv = document.getElementById("board");
+
+    const player1NameSpan = document.getElementById("player1Name");
+    const player2NameSpan = document.getElementById("player2Name");
+
+    
+let players = []; 
+let playerColors = {}; 
+
+async function onSubmit(e) {
+    e.preventDefault();
+    let p1 = document.getElementById("player1").value;
+    let p2 = document.getElementById("player2").value;
+
+    players = [p1, p2];
+    localStorage.setItem("players", JSON.stringify(players));
+
+    form.classList.add("hidden");
+    board.classList.remove("hidden");
+
+    await startGame(players);
+}
+
+async function startGame(playersInput) {
+    let p1, p2;
+
+    if (playersInput && Array.isArray(playersInput)) {
+        // dipanggil dari reload
+        [p1, p2] = playersInput;
+    } else {
+        // dipanggil dari form submit
+        p1 = document.getElementById("player1").value;
+        p2 = document.getElementById("player2").value;
+    }
+
+    const res = await fetch("http://localhost:5002/Othello/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ Player1: p1, Player2: p2 })
+    });
+
+    if (!res.ok) {
+        console.error("Failed to start game", await res.text());
+        return;
+    }
+
+    const data = await res.json();
+
+    if (!data.currentPlayer || !data.players) {
+        console.error("Invalid backend response", data);
+        return;
+    }
+
+    const current = data.currentPlayer.name;
+    const opponent = data.players.find(p => p.name !== current).name;
+
+    playerColors = {};
+    data.players.forEach(p => playerColors[p.name] = p.color);
+
+    player1NameSpan.innerText = `${current}`;
+    player2NameSpan.innerText = `${opponent}`;
+
+    board.classList.remove("hidden");
+    form.classList.add("hidden");
+
+    await loadStatus();
+    document.getElementById("gameOverlay").classList.add("d-none");
+}
+
+async function loadStatus() {
+    await loadBoard();
+
+    const statusRes = await fetch("http://localhost:5002/Othello/status");
+    if (!statusRes.ok) {
+        console.error("Error loading status:", await statusRes.text());
+        return;
+    }
+
+    const data = await statusRes.json();
+    const currentPlayer = data.currentPlayer;
+    const validMoves = data.validMoves ?? [];
+    const scores = data.score ?? { Black: 0, White: 0 };
+    const scoreBlack = scores.Black ?? scores.black ?? 0;
+    const scoreWhite = scores.White ?? scores.white ?? 0;
+
+    const isGameOver = data.isGameOver ?? false;
+    
+    const boardData = data.board ?? data; 
+    if (!boardData || !boardData.size || !boardData.cells) {
+        console.error("Board data kosong!", boardData);
+        return; 
+}
+
+    if (!currentPlayer) return;
+
+    // update player card highlight
+    document.getElementById("player1Card").classList.toggle("active", currentPlayer.color === "Black" || currentPlayer.color === "black");
+    document.getElementById("player2Card").classList.toggle("active", currentPlayer.color === "White" || currentPlayer.color === "white");
+
+    // highlight valid moves
+    for (const pos of validMoves) {
+        const index = pos.row * boardData.size + pos.col;
+        if (boardDiv.children[index]) boardDiv.children[index].classList.add("valid-move");
+    }
+
+    // update score dinamis
+   const playerDivs = document.querySelectorAll(".score-card .player-half");
+
+    for (let div of playerDivs) {
+        const nameSpan = div.querySelector(".player-name");
+        const scoreSpan = div.querySelector(".score");
+
+        if (nameSpan && scoreSpan) {
+            const playerName = nameSpan.innerText
+                .replace("⚫ ", "")
+                .replace("⚪ ", "")
+                .trim();
+
+            const color = playerColors[playerName];
+            
+            // Check color case-insensitively
+            if (color && (color === "Black" || color === "black")) {
+                scoreSpan.innerText = scoreBlack;
+            } else if (color && (color === "White" || color === "white")) {
+                scoreSpan.innerText = scoreWhite;
+            }
+        }
+    }
+
+
+    // jika game over
+    if (isGameOver) {
+        const winner = scoreBlack > scoreWhite ? "black" :
+                       scoreWhite > scoreBlack ? "white" : "draw";
+        showGameResult(winner, scoreBlack, scoreWhite);
+    }
+}
+
+async function loadBoard() {
+    const statusRes = await fetch("http://localhost:5002/Othello/board");
+    if (!statusRes.ok) {
+        console.error("Error loading board:", await statusRes.text());
+        return;
+    }
+
+    const boardData = await statusRes.json();
+    boardDiv.innerHTML = "";
+
+    for (let r = 0; r < boardData.size; r++) {
+        for (let c = 0; c < boardData.size; c++) {
+            const cell = boardData.cells[r][c];
+            const cellDiv = document.createElement("div");
+            cellDiv.className = "cell";
+            if (cell.piece) {
+                cellDiv.innerHTML = `<div class="${cell.piece.color.toLowerCase()}"></div>`;
+            }
+            cellDiv.addEventListener("click", () => play(r, c));
+            boardDiv.appendChild(cellDiv);
+        }
+    }
+}
+
+async function play(row, col) {
+    const res = await fetch("http://localhost:5002/Othello/play", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ row, col })
+    });
+
+    if (!res.ok) {
+        highlightInvalidCell(row, col);
+        showInvalidMoveToast();
+        keyboardSoundError.play();
+        return;
+    }
+        await loadStatus();
+     if (keyboardSound) {
+        keyboardSound.currentTime = 0; // reset ke awal
+        keyboardSound.play();
+    }
+    
+
+}
+
+async function passTurn() {
+    await fetch("http://localhost:5002/Othello/pass", { method: "POST" });
+    await loadStatus();
+}
+
+// Show invalid move toast
+function showInvalidMoveToast() {
+    const toastEl = document.getElementById('invalidMoveToast');
+    const toast = new bootstrap.Toast(toastEl, { delay: 2000 });
+    toast.show();
+}
+
+// Highlight invalid cell
+function highlightInvalidCell(row, col) {
+    const boardData = { size: 8 }; // assuming 8x8 board
+    const index = row * boardData.size + col;
+    const cell = boardDiv.children[index];
+    if (cell) {
+        cell.classList.add('invalid');
+        setTimeout(() => cell.classList.remove('invalid'), 500);
+    }
+}
+
+// Show game result overlay
+function showGameResult(winner, blackScore, whiteScore) {
+    const overlay = document.getElementById('gameOverlay');
+    const icon = document.getElementById('resultIcon');
+    const title = document.getElementById('resultTitle');
+    const winnerText = document.getElementById('resultWinner');
+    const blackFinal = document.getElementById('blackFinalScore');
+    const whiteFinal = document.getElementById('whiteFinalScore');
+    
+    // Get player names
+    let blackPlayerName = '';
+    let whitePlayerName = '';
+    
+    for (const [name, color] of Object.entries(playerColors)) {
+        if (color === 'Black') blackPlayerName = name;
+        if (color === 'White') whitePlayerName = name;
+    }
+    
+    // Set scores
+    blackFinal.textContent = blackScore;
+    whiteFinal.textContent = whiteScore;
+    
+    if (winner === 'black') {
+        icon.textContent = '🏆';
+        title.textContent = 'Victory!';
+        winnerText.textContent = `${blackPlayerName} wins!`;
+    } else if (winner === 'white') {
+        icon.textContent = '🏆';
+        title.textContent = 'Victory!';
+        winnerText.textContent = `${whitePlayerName} wins!`;
+    } else {
+        icon.textContent = '🤝';
+        title.textContent = 'Draw!';
+        winnerText.textContent = 'It\'s a tie!';
+    }
+    
+    overlay.classList.remove('d-none');
+}
+
+// Go back to menu
+function goToMenu() {
+    localStorage.removeItem("players");
+    document.getElementById("gameOverlay").classList.add("d-none");
+    board.classList.add("hidden");
+    form.classList.add("hidden");
+    document.getElementById("welcome-page").classList.remove("hidden");
+    document.querySelector(".welcome-content").classList.remove("hidden");
+    document.getElementById("loading-screen").classList.add("hidden");
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    const savedPlayers = JSON.parse(localStorage.getItem("players"));
+    if (Array.isArray(savedPlayers) && savedPlayers.length === 2) {
+        document.getElementById("welcome-page").classList.add("hidden");
+        try {
+            await startGame(savedPlayers);
+        } catch (error) {
+            console.error("Failed to connect to game server:", error);
+            // Clear saved players and show welcome page on failure
+            localStorage.removeItem("players");
+            document.getElementById("welcome-page").classList.remove("hidden");
+            document.querySelector(".welcome-content").classList.remove("hidden");
+            document.getElementById("loading-screen").classList.add("hidden");
+            form.classList.add("hidden");
+            board.classList.add("hidden");
+        }
+    } else {
+        form.classList.add("hidden");
+        board.classList.add("hidden");
+    }
+});
+</script>
