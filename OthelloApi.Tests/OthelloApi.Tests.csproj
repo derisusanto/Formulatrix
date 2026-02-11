@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OthelloApi\OthelloApi.csproj" />
+    <ProjectReference Include="..\OthelloAPI\OthelloAPI.csproj" />
   </ItemGroup>
 
 </Project>

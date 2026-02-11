@@ -81,74 +81,88 @@ namespace OthelloAPI.Services
             => playerColor == PlayerColor.Black ? PieceColor.Black : PieceColor.White;
 
         // ------------------ GAMEPLAY ------------------
-public ServiceResult<bool> PlayAt(Position pos)
-{
-    _logger.LogInformation("Player {Player} attempting to play at {@Position}", CurrentPlayer?.Name, pos);
-
-    if (IsGameOver)
+    public ServiceResult<bool> PlayAt(Position pos)
     {
-        _logger.LogWarning("Move rejected: Game is already over. Player {Player} tried to play at {@Position}", CurrentPlayer?.Name, pos);
-        return ServiceResult<bool>.Fail("Game is already over.");
-    }
+        _logger.LogInformation("Player {Player} attempting to play at {@Position}", CurrentPlayer?.Name, pos);
 
-    if (!IsValidMove(pos, CurrentPlayer.Color))
-    {
-        _logger.LogWarning("Invalid move by {Player} at {@Position}", CurrentPlayer?.Name, pos);
-        return ServiceResult<bool>.Fail("Invalid move at this position.");
-    }
+        if (IsGameOver)
+        {
+            _logger.LogWarning("Move rejected: Game is already over. Player {Player} tried to play at {@Position}", CurrentPlayer?.Name, pos);
+            return ServiceResult<bool>.Fail("Game is already over.");
+        }
 
-    var toFlip = GetFlippablePositions(pos, CurrentPlayer.Color);
-    _logger.LogDebug("Flipping {Count} opponent pieces for move at {@Position} by {Player}", toFlip.Count, pos, CurrentPlayer?.Name);
+        if (!IsValidMove(pos, CurrentPlayer.Color))
+        {
+            _logger.LogWarning("Invalid move by {Player} at {@Position}", CurrentPlayer?.Name, pos);
+            return ServiceResult<bool>.Fail("Invalid move at this position.");
+        }
 
-    _board.Cells[pos.Row, pos.Col].Piece = new Piece(ToPieceColor(CurrentPlayer.Color));
-    FlipPieces(toFlip);
+        var toFlip = GetFlippablePositions(pos, CurrentPlayer.Color);
+        _logger.LogDebug("Flipping {Count} opponent pieces for move at {@Position} by {Player}", toFlip.Count, pos, CurrentPlayer?.Name);
 
-    _counterPasses = 0;
+        _board.Cells[pos.Row, pos.Col].Piece = new Piece(ToPieceColor(CurrentPlayer.Color));
+        FlipPieces(toFlip);
 
-    RaiseBoardUpdated();
-    _logger.LogInformation("Board updated after {Player}'s move at {@Position}", CurrentPlayer?.Name, pos);
+        _counterPasses = 0;
 
-    SwitchTurn();
-    _logger.LogInformation("Turn changed to {Player}", CurrentPlayer?.Name);
+        RaiseBoardUpdated();
+        _logger.LogInformation("Board updated after {Player}'s move at {@Position}", CurrentPlayer?.Name, pos);
 
-    if (!HasAnyValidMove(CurrentPlayer.Color))
-    {
-        _counterPasses++;
-        _logger.LogInformation("Player {Player} has no valid moves, skipping turn", CurrentPlayer?.Name);
         SwitchTurn();
-        _logger.LogInformation("Turn changed to {Player} after skip", CurrentPlayer?.Name);
-    }
+        _logger.LogInformation("Turn changed to {Player}", CurrentPlayer?.Name);
 
-    if (CheckGameOver())
-    {
-        IsGameOver = true;
-        var winner = GetWinner();
-        _logger.LogInformation("Game Over! Winner: {Winner}", winner?.Name ?? "Draw");
-        RaiseGameEnded(winner);
-    }
-
-    _logger.LogInformation("Move at {@Position} by {Player} completed successfully", pos, CurrentPlayer?.Name);
-
-    return ServiceResult<bool>.Ok(true);
-}
-
-        public void PassTurn()
+        if (!HasAnyValidMove(CurrentPlayer.Color))
         {
             _counterPasses++;
+            _logger.LogInformation("Player {Player} has no valid moves, skipping turn", CurrentPlayer?.Name);
             SwitchTurn();
-
-            if (!HasAnyValidMove(CurrentPlayer.Color))
-            {
-                _counterPasses++;
-                SwitchTurn();
-            }
-
-            if (CheckGameOver())
-            {
-                IsGameOver = true;
-                RaiseGameEnded(GetWinner());
-            }
+            _logger.LogInformation("Turn changed to {Player} after skip", CurrentPlayer?.Name);
         }
+
+        if (CheckGameOver())
+        {
+            IsGameOver = true;
+            var winner = GetWinner();
+            _logger.LogInformation("Game Over! Winner: {Winner}", winner?.Name ?? "Draw");
+            RaiseGameEnded(winner);
+        }
+
+        _logger.LogInformation("Move at {@Position} by {Player} completed successfully", pos, CurrentPlayer?.Name);
+
+        return ServiceResult<bool>.Ok(true);
+    }
+   
+    public void PassTurn()
+     {
+        _counterPasses++;
+        _logger.LogInformation("Player {Player} passed. CounterPasses: {Count}", CurrentPlayer?.Name, _counterPasses);
+
+        SwitchTurn();
+        _logger.LogInformation("Turn changed to {Player}", CurrentPlayer?.Name);
+
+        //  Cek apakah pemain baru punya valid move
+        if (!HasAnyValidMove(CurrentPlayer.Color))
+            {
+                // Jika tidak ada valid move → increment counter lagi
+                _counterPasses++;
+                _logger.LogInformation("No valid moves for {Player}, counter incremented: {Count}", CurrentPlayer?.Name, _counterPasses);
+
+                // Ganti giliran lagi
+                SwitchTurn();
+                _logger.LogInformation("Turn changed again to {Player}", CurrentPlayer?.Name);
+            }
+
+        // 4️⃣ Cek apakah game over (misal counter pass 2 atau board penuh)
+        if (CheckGameOver())
+        {
+            IsGameOver = true;
+            RaiseGameEnded(GetWinner());
+            _logger.LogInformation("Game Over! Winner: {Winner}", GetWinner()?.Name ?? "Draw");
+        }
+
+            _logger.LogInformation("End of PassTurn. CurrentPlayer: {Player}, CounterPasses: {Count}, IsGameOver: {IsOver}",
+            CurrentPlayer?.Name, _counterPasses, IsGameOver);
+     }
 
         private void FlipPieces(List<Position> positions)
         {

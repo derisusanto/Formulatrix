@@ -2,15 +2,16 @@ namespace OthelloAPI.Models;
 
     public enum PieceColor
 {
-    Black,
-    White,
-    Empty
+        Empty =0,
+    Black =1,
+    White=2,
+
 }
 
     public enum PlayerColor
 {
-    Black,
-    White,
+    Black = 1,
+    White = 2,
 }
 
     public enum Direction

@@ -1,22 +1,183 @@
-﻿using OthelloAPI.Services;
+﻿
+using NUnit.Framework;
+using OthelloAPI.Services;
 using OthelloAPI.Models;
 using OthelloAPI.Common;
 using Moq;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 
-
-namespace OthelloAPI;
-
-public class Tests
+namespace OthelloAPI.Tests
 {
-    private GameController _game;
-    private Mock<ILogger<GameController>> _mockLogger;
-
-    [SetUp]
-    public void Setup()
+    // [TestFixture]
+    public class GameControllerTests
     {
-      // Buat players
-    _mockLogger = new Mock<ILogger<GameController>>();
+        private GameController _game;
+        private Mock<ILogger<GameController>> _mockLogger;
+
+        [SetUp]
+        public void Setup()
+        {
+            // Mock logger
+            _mockLogger = new Mock<ILogger<GameController>>();
+
+            // Buat players
+            var players = new List<IPlayer>
+            {
+                new Player("Alice", PlayerColor.Black),
+                new Player("Bob", PlayerColor.White)
+            };
+
+            // Buat board 4x4 untuk test cepat
+            var board = new Board(4);
+            for (int r = 0; r < 4; r++)
+                for (int c = 0; c < 4; c++)
+                    board.Cells[r, c] = new Cell(new Position(r, c));
+
+            // Set posisi awal Othello
+            int mid = board.Size / 2;
+            board.Cells[mid - 1, mid - 1].Piece = new Piece(PieceColor.White);
+            board.Cells[mid, mid].Piece = new Piece(PieceColor.White);
+            board.Cells[mid - 1, mid].Piece = new Piece(PieceColor.Black);
+            board.Cells[mid, mid - 1].Piece = new Piece(PieceColor.Black);
+
+            // Buat GameController
+            _game = new GameController(_mockLogger.Object);
+            _game.StartNewGame(players, board);
+        }
+
+        [Test]
+        public void StartNewGame_InitializeBoardAndPlayers()
+        {
+            var board = _game.GetBoard();
+            var players = new List<IPlayer> { _game.CurrentPlayer, _game.CurrentPlayer };
+
+            Assert.That(_game.CurrentPlayer, Is.Not.Null);
+            Assert.That(board.Cells.Cast<Cell>().Count(c => c.Piece != null), Is.EqualTo(4), "Board harus punya 4 pion awal");
+            Assert.That(_game.IsGameOver, Is.False, "Game harus belum over saat start");
+        }
+
+        [Test]
+        public void PlayAt_ValidMove_ShouldPlacePiece()
+        {
+            var pos = new Position(3, 2);
+            var playerBeforeMove = _game.CurrentPlayer;
+
+            var result = _game.PlayAt(pos);
+
+            Assert.That(result.Success, Is.True, "Move valid seharusnya sukses");
+            // Assert.That(_game.GetBoard().Cells[pos.Row, pos.Col].Piece, Is.EqualTo((Piece)playerBeforeMove.Color));
+        }
+
+      
+         [TestCase(1,1)]
+        [TestCase(1,2)]
+        [TestCase(0,0)]
+        public void PlayAt_InvalidMove_ShouldFail(int row, int col)
+        {
+            var pos = new Position(row, col);
+            var result = _game.PlayAt(pos);
+
+            Assert.That(result.Success, Is.False, "Move invalid seharusnya gagal");
+        }
+
+      [Test]
+public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
+{
+    var board = _game.GetBoard();
+
+    // Isi seluruh board
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 4; c++)
+            board.Cells[r, c].Piece = new Piece(PieceColor.Black);
+
+    // Optional: cek board penuh
+        Assert.That(board.Cells.Cast<Cell>().All(c => c.Piece != null), Is.True);
+
+        var invalidPos = new Position(3, 2);
+        var result =  _game.PlayAt(invalidPos);
+   
+    Assert.That(result.Success, Is.False, "Game over karena kedua pemain harus pass");
+   
+}
+
+
+   
+        [Test]
+        public void IsValidMove_InputValid_ReturnTrue()
+        {
+            var pos = new Position(3, 2);
+            _game.GetBoard().Cells[pos.Row, pos.Col].Piece = null;
+            var result = _game.IsValidMove(pos, PlayerColor.Black);
+
+            Assert.That(result, Is.True, "Posisi kosong seharusnya valid move");
+        }
+
+        [Test]
+        public void IsValidMove_InputInvalid_ReturnFalse()
+        {
+            var pos = new Position(1, 1);
+            _game.GetBoard().Cells[pos.Row, pos.Col].Piece =new Piece(PieceColor.Black);
+
+            var result = _game.IsValidMove(pos, PlayerColor.Black);
+
+            Assert.That(result, Is.False, "Posisi sudah diisi seharusnya invalid move");
+        }
+
+        [Test]
+        public void GetScore_ShouldReturnCorrectScore()
+        {
+            var result = _game.GetScore();
+
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Data.Black, Is.EqualTo(2));
+            Assert.That(result.Data.White, Is.EqualTo(2));
+        }
+       [Test]
+
+
+public void GetScore_EmptyBoard_FailOrReturnZero()
+{
+    // Arrange
+    var mockLogger = new Mock<ILogger<GameController>>();
+    var game = new GameController(mockLogger.Object);
+
+    // Buat board kosong 4x4 tanpa pion
+    var board = new Board(4);
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 4; c++)
+            board.Cells[r, c] = new Cell(new Position(r, c));
+
+    // Start game dengan board kosong
+    var players = new List<IPlayer>
+    {
+        new Player("Alice", PlayerColor.Black),
+        new Player("Bob", PlayerColor.White)
+    };
+    game.StartNewGame(players, board);
+
+    for (int r = 0; r < board.Size; r++)
+    for (int c = 0; c < board.Size; c++)
+        board.Cells[r, c].Piece = null;
+
+    // Act
+    var result = game.GetScore();
+    // Assert
+    Assert.That(result.Success, Is.True, "Game berjalan tapi board kosong → sukses");
+    Assert.That(result.Data.Black, Is.EqualTo(0), "Tidak ada pion Black");
+    Assert.That(result.Data.White, Is.EqualTo(0), "Tidak ada pion White");
+    }
+
+    [Test]
+public void GetWinner_BlackHasMorePoints_ReturnsBlack()
+//return black winner
+{
+  
+    var board = new Board(4);
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 4; c++)
+            board.Cells[r, c] = new Cell(new Position(r, c)); // semua null
 
     var players = new List<IPlayer>
     {
@@ -24,95 +185,59 @@ public class Tests
         new Player("Bob", PlayerColor.White)
     };
 
-    // Buat board kosong
-    var board = new Board(8);
-    for (int r = 0; r < 8; r++)
-        for (int c = 0; c < 8; c++)
-            board.Cells[r, c] = new Cell(new Position(r, c));
-
-    // Set pieces awal Othello
-    int mid = board.Size / 2;
-    board.Cells[mid - 1, mid - 1].Piece = new Piece(PieceColor.White);
-    board.Cells[mid, mid].Piece = new Piece(PieceColor.White);
-    board.Cells[mid - 1, mid].Piece = new Piece(PieceColor.Black);
-    board.Cells[mid, mid - 1].Piece = new Piece(PieceColor.Black);
-
-    // Buat GameController
-    _game = new GameController(_mockLogger.Object);
     _game.StartNewGame(players, board);
-    }
 
-    [Test]
-    public void PlayAt_InputValid_ReturnTrue()
+    // Set pion sesuai skenario Black menang
+    board.Cells[0,0].Piece = new Piece(PieceColor.Black);
+    board.Cells[0,1].Piece = new Piece(PieceColor.Black);
+    board.Cells[0,2].Piece = new Piece(PieceColor.White);
+
+    // Act
+    var winner = _game.GetWinner();
+
+    // Assert
+    Assert.That(winner, Is.Not.Null);
+    Assert.That(winner!.Color, Is.EqualTo(PlayerColor.Black));
+    Assert.That(winner.Name, Is.EqualTo("Alice"));
+}
+
+ [Test]
+public void GetWinner_EmptyBoard_ReturnNull()
+{
+    // Arrange
+    var board = new Board(4);
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 4; c++)
+            board.Cells[r, c] = new Cell(new Position(r, c)); 
+
+    var players = new List<IPlayer>
     {
-        var pos = new Position(3,2);
-        ServiceResult<bool> result = _game.PlayAt(pos);
-
-        Assert.That(result.Success, Is.True, "Move Data Benar");
-    }
-
-    [TestCase(1,1)]
-    [TestCase(1,2)]
-    [TestCase(0,1)]
-    public void PlayAt_InputValid_ReturnFalse(int row, int col)
-    {   
-        
-        var pos = new Position(row,col);
-        //  _game.GetBoard().Cells[pos.Row, pos.Col].Piece = new Piece(PieceColor.Black); // cell sudah terisi
-        ServiceResult<bool> invalidResul = _game.PlayAt(pos);
-
-        Assert.That(invalidResul.Success, Is.False, "Tidak ada kolom");
-    }
-
-
-    [Test]
-    public void IsValidMove_InputValid_ReturnTrue()
-    {
-        var pos = new Position(3,2);
-        var result = _game.IsValidMove(pos, PlayerColor.Black);
-
-         Assert.That(result, Is.True);
-
-    }
-    [Test]
-    public void IsValidMove_InputInvalid_ReturnFalse()
-    {
-        var pos = new Position(3,3);
-
-        var result = _game.IsValidMove(pos, PlayerColor.Black);
-         _game.GetBoard().Cells[3,3].Piece = new Piece(PieceColor.Black);
-
-         Assert.That(result, Is.False);
-    }
-    [Test]
-    public void GetScore_EmptyBoard_ShouldFail()
-    {
-         var players = new List<IPlayer>
-    {
-        new Player("A", PlayerColor.Black),
-        new Player("B", PlayerColor.White)
+        new Player("Alice", PlayerColor.Black),
+        new Player("Bob", PlayerColor.White)
     };
 
-    var board = new Board(0); // board 0
-    var mockLogger = new Mock<ILogger<GameController>>();
-    var game = new GameController(mockLogger.Object);
-    game.StartNewGame(players, board);
-    var result = game.GetScore();
+    _game.StartNewGame(players, board);
 
-    Assert.That(result.Success, Is.True);
-    Assert.That(result.Data.Black, Is.EqualTo(0));
-    Assert.That(result.Data.White, Is.EqualTo(0));
-    }
+    var winner = _game.GetWinner();
 
-   [Test]
-    public void GetScore_Input2_ReturnScore()
+    Assert.That(winner, Is.Null, "Seharusnya null jika board kosong / tidak ada pion");
+}
+
+
+    [Test]
+    public void GetWinner_Draw_ReturnsNull()
     {
+        var _board = new Board(4);
+            for (int r = 0; r < 4; r++)
+                for (int c = 0; c < 4; c++)
+                    _board.Cells[r, c] = new Cell(new Position(r, c));
+        _board.Cells[0,0].Piece = new Piece(PieceColor.Black);
+        _board.Cells[0,1].Piece = new Piece(PieceColor.White);
 
-        var result = _game.GetScore();
+        var winner = _game.GetWinner();
 
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Data.Black, Is.EqualTo(2));
-        Assert.That(result.Data.White, Is.EqualTo(2));
+        Assert.That(winner, Is.Null, "Seharusnya null jika seri (draw)");
     }
-  
+
+    }
 }
