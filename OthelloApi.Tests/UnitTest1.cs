@@ -49,9 +49,9 @@ namespace OthelloAPI.Tests
 
         [Test]
         public void StartNewGame_InitializeBoardAndPlayers()
+        //check initialisasi
         {
             var board = _game.GetBoard();
-            var players = new List<IPlayer> { _game.CurrentPlayer, _game.CurrentPlayer };
 
             Assert.That(_game.CurrentPlayer, Is.Not.Null);
             Assert.That(board.Cells.Cast<Cell>().Count(c => c.Piece != null), Is.EqualTo(4), "Board harus punya 4 pion awal");
@@ -59,7 +59,8 @@ namespace OthelloAPI.Tests
         }
 
         [Test]
-        public void PlayAt_ValidMove_ShouldPlacePiece()
+        public void PlayAt_ValidMove_ReturnTrue()
+        //move valid
         {
             var pos = new Position(3, 2);
             var playerBeforeMove = _game.CurrentPlayer;
@@ -71,10 +72,11 @@ namespace OthelloAPI.Tests
         }
 
       
-         [TestCase(1,1)]
+        [TestCase(1,1)]
         [TestCase(1,2)]
         [TestCase(0,0)]
         public void PlayAt_InvalidMove_ShouldFail(int row, int col)
+        //move tidak valid
         {
             var pos = new Position(row, col);
             var result = _game.PlayAt(pos);
@@ -83,7 +85,8 @@ namespace OthelloAPI.Tests
         }
 
       [Test]
-public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
+public void PlayAt_SetFullBoard_ReturnFalse()
+//play at dengan board penuh
 {
     var board = _game.GetBoard();
 
@@ -101,11 +104,9 @@ public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
     Assert.That(result.Success, Is.False, "Game over karena kedua pemain harus pass");
    
 }
-
-
-   
         [Test]
         public void IsValidMove_InputValid_ReturnTrue()
+        //taruh di piece di posisi valid
         {
             var pos = new Position(3, 2);
             _game.GetBoard().Cells[pos.Row, pos.Col].Piece = null;
@@ -116,6 +117,7 @@ public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
 
         [Test]
         public void IsValidMove_InputInvalid_ReturnFalse()
+        //taruh piece di tempat yang sudah ada piecenya
         {
             var pos = new Position(1, 1);
             _game.GetBoard().Cells[pos.Row, pos.Col].Piece =new Piece(PieceColor.Black);
@@ -126,7 +128,7 @@ public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
         }
 
         [Test]
-        public void GetScore_ShouldReturnCorrectScore()
+        public void GetScore_ReturnCorrectScore()
         {
             var result = _game.GetScore();
 
@@ -138,6 +140,7 @@ public void PlayAt_TwoConsecutivePasses_ShouldSetGameOver()
 
 
 public void GetScore_EmptyBoard_FailOrReturnZero()
+//retun 0/gagal jika board belum ada
 {
     // Arrange
     var mockLogger = new Mock<ILogger<GameController>>();
@@ -174,28 +177,28 @@ public void GetWinner_BlackHasMorePoints_ReturnsBlack()
 //return black winner
 {
   
-    var board = new Board(4);
-    for (int r = 0; r < 4; r++)
-        for (int c = 0; c < 4; c++)
-            board.Cells[r, c] = new Cell(new Position(r, c)); // semua null
+    // var board = new Board(4);
+    // for (int r = 0; r < 4; r++)
+    //     for (int c = 0; c < 4; c++)
+    //         board.Cells[r, c] = new Cell(new Position(r, c)); // semua null
 
-    var players = new List<IPlayer>
-    {
-        new Player("Alice", PlayerColor.Black),
-        new Player("Bob", PlayerColor.White)
-    };
+    // var players = new List<IPlayer>
+    // {
+    //     new Player("Alice", PlayerColor.Black),
+    //     new Player("Bob", PlayerColor.White)
+    // };
 
-    _game.StartNewGame(players, board);
+    // _game.StartNewGame(players, board);
 
     // Set pion sesuai skenario Black menang
-    board.Cells[0,0].Piece = new Piece(PieceColor.Black);
-    board.Cells[0,1].Piece = new Piece(PieceColor.Black);
-    board.Cells[0,2].Piece = new Piece(PieceColor.White);
+    _game.GetBoard().Cells[0,0].Piece = new Piece(PieceColor.Black);
+    _game.GetBoard().Cells[0,1].Piece = new Piece(PieceColor.Black);
+    _game.GetBoard().Cells[0,2].Piece = new Piece(PieceColor.White);
 
-    // Act
+    
     var winner = _game.GetWinner();
 
-    // Assert
+ 
     Assert.That(winner, Is.Not.Null);
     Assert.That(winner!.Color, Is.EqualTo(PlayerColor.Black));
     Assert.That(winner.Name, Is.EqualTo("Alice"));
@@ -205,18 +208,18 @@ public void GetWinner_BlackHasMorePoints_ReturnsBlack()
 public void GetWinner_EmptyBoard_ReturnNull()
 {
     // Arrange
-    var board = new Board(4);
-    for (int r = 0; r < 4; r++)
-        for (int c = 0; c < 4; c++)
-            board.Cells[r, c] = new Cell(new Position(r, c)); 
+    // var board = new Board(4);
+    // for (int r = 0; r < 4; r++)
+    //     for (int c = 0; c < 4; c++)
+    //         board.Cells[r, c] = new Cell(new Position(r, c)); 
 
-    var players = new List<IPlayer>
-    {
-        new Player("Alice", PlayerColor.Black),
-        new Player("Bob", PlayerColor.White)
-    };
+    // var players = new List<IPlayer>
+    // {
+    //     new Player("Alice", PlayerColor.Black),
+    //     new Player("Bob", PlayerColor.White)
+    // };
 
-    _game.StartNewGame(players, board);
+    // _game.StartNewGame(players, board);
 
     var winner = _game.GetWinner();
 

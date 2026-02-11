@@ -271,22 +271,36 @@ namespace OthelloAPI.Services
 
             return ServiceResult<ScoreDto>.Ok(score);
         }
-
-        public IPlayer? GetWinner()
+    public IPlayer? GetWinner()
         {
             var result = GetScore();
 
             if (!result.Success)
             {
-
+                // Log kalau gagal ambil score
+                _logger.LogWarning("GetWinner dipanggil tapi gagal mendapatkan score. Reason: {Message}", result.Message);
                 return null;
             }
 
-            var score = result.Data; // inilah ScoreDto
-            if (score.Black > score.White) return _players.First(p => p.Color == PlayerColor.Black);
-            if (score.White > score.Black) return _players.First(p => p.Color == PlayerColor.White);
-            return null; 
+            var score = result.Data; // ScoreDto
+
+            if (score.Black > score.White)
+            {
+                _logger.LogInformation("Pemenang: Black dengan skor {Black} vs {White}", score.Black, score.White);
+                return _players.First(p => p.Color == PlayerColor.Black);
+            }
+
+            if (score.White > score.Black)
+            {
+                _logger.LogInformation("Pemenang: White dengan skor {White} vs {Black}", score.White, score.Black);
+                return _players.First(p => p.Color == PlayerColor.White);
+            }
+
+            // Seri
+            _logger.LogInformation("Hasil seri: Black {Black} - White {White}", score.Black, score.White);
+            return null;
         }
+
 
         // ------------------ EVENT RAISERS ------------------
         private void RaiseTurnChanged() => TurnChanged?.Invoke(CurrentPlayer);
