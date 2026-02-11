@@ -16,7 +16,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()                        // tampil di console
     .WriteTo.File("logs/log-.txt",            // log file
                   rollingInterval: RollingInterval.Day,
-                  retainedFileCountLimit: 7, // simpan 7 hari
+                  retainedFileCountLimit: 1, // simpan 7 hari
                   outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 

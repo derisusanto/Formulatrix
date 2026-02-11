@@ -35,8 +35,6 @@ namespace OthelloAPI.Services
             _players = new List<IPlayer>();
             _board = new Board(8);
             _logger = logger;
-
-
         }
 
 

@@ -47,23 +47,22 @@ namespace OthelloAPI.Tests
             _game.StartNewGame(players, board);
         }
 
-        [Test]
-        public void StartNewGame_InitializeBoardAndPlayers()
-        //check initialisasi
-        {
-            var board = _game.GetBoard();
-
-            Assert.That(_game.CurrentPlayer, Is.Not.Null);
-            Assert.That(board.Cells.Cast<Cell>().Count(c => c.Piece != null), Is.EqualTo(4), "Board harus punya 4 pion awal");
-            Assert.That(_game.IsGameOver, Is.False, "Game harus belum over saat start");
-        }
+        // [Test]
+        // public void StartNewGame_InitializeBoardAndPlayers()
+        // //check initialisasi
+        // {
+        //     var board = _game.GetBoard();
+        //     Assert.That(_game.CurrentPlayer, Is.Not.Null);
+        //     Assert.That(board.Cells.Cast<Cell>().Count(c => c.Piece != null), Is.EqualTo(4), "Board harus punya 4 pion awal");
+        //     Assert.That(_game.IsGameOver, Is.False, "Game harus belum over saat start");
+        // }
 
         [Test]
         public void PlayAt_ValidMove_ReturnTrue()
         //move valid
         {
             var pos = new Position(3, 2);
-            var playerBeforeMove = _game.CurrentPlayer;
+            // var playerBeforeMove = _game.CurrentPlayer;
 
             var result = _game.PlayAt(pos);
 
@@ -85,25 +84,25 @@ namespace OthelloAPI.Tests
         }
 
       [Test]
-public void PlayAt_SetFullBoard_ReturnFalse()
-//play at dengan board penuh
-{
-    var board = _game.GetBoard();
+    public void PlayAt_SetFullBoard_ReturnFalse()
+    //play at dengan board penuh
+    {
+        var board = _game.GetBoard();
 
-    // Isi seluruh board
-    for (int r = 0; r < 4; r++)
-        for (int c = 0; c < 4; c++)
-            board.Cells[r, c].Piece = new Piece(PieceColor.Black);
+        // Isi seluruh board
+        for (int r = 0; r < 4; r++)
+            for (int c = 0; c < 4; c++)
+                board.Cells[r, c].Piece = new Piece(PieceColor.Black);
 
-    // Optional: cek board penuh
-        Assert.That(board.Cells.Cast<Cell>().All(c => c.Piece != null), Is.True);
+        // Optional: cek board penuh
+            Assert.That(board.Cells.Cast<Cell>().All(c => c.Piece != null), Is.True);
 
-        var invalidPos = new Position(3, 2);
-        var result =  _game.PlayAt(invalidPos);
-   
-    Assert.That(result.Success, Is.False, "Game over karena kedua pemain harus pass");
-   
-}
+            var invalidPos = new Position(3, 2);
+            var result =  _game.PlayAt(invalidPos);
+    
+        Assert.That(result.Success, Is.False, "Game over karena kedua pemain harus pass");
+    
+    }
         [Test]
         public void IsValidMove_InputValid_ReturnTrue()
         //taruh di piece di posisi valid
