@@ -1,5 +1,6 @@
-
+using Serilog;
 using OthelloAPI.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,17 @@ builder.Services.AddEndpointsApiExplorer();  // <--- wajib untuk Swagger
 builder.Services.AddSwaggerGen();            // <--- Swagger
 builder.Services.AddSingleton<GameController>();
 
+// Setup Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()                     // level minimal log
+    .WriteTo.Console()                        // tampil di console
+    .WriteTo.File("logs/log-.txt",            // log file
+                  rollingInterval: RollingInterval.Day,
+                  retainedFileCountLimit: 7, // simpan 7 hari
+                  outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddCors(options =>
 {

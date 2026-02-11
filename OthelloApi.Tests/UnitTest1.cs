@@ -1,15 +1,23 @@
 ﻿using OthelloAPI.Services;
 using OthelloAPI.Models;
 using OthelloAPI.Common;
+using Moq;
+using Microsoft.Extensions.Logging;
+
+
 namespace OthelloAPI;
 
 public class Tests
 {
     private GameController _game;
+    private Mock<ILogger<GameController>> _mockLogger;
+
     [SetUp]
     public void Setup()
     {
       // Buat players
+    _mockLogger = new Mock<ILogger<GameController>>();
+
     var players = new List<IPlayer>
     {
         new Player("Alice", PlayerColor.Black),
@@ -30,7 +38,7 @@ public class Tests
     board.Cells[mid, mid - 1].Piece = new Piece(PieceColor.Black);
 
     // Buat GameController
-    _game = new GameController();
+    _game = new GameController(_mockLogger.Object);
     _game.StartNewGame(players, board);
     }
 
@@ -86,9 +94,9 @@ public class Tests
     };
 
     var board = new Board(0); // board 0
-    var game = new GameController();
+    var mockLogger = new Mock<ILogger<GameController>>();
+    var game = new GameController(mockLogger.Object);
     game.StartNewGame(players, board);
-
     var result = game.GetScore();
 
     Assert.That(result.Success, Is.True);
