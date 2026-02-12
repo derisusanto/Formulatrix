@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj": {}
+    "/Users/derisusanto/Documents/Formulatrix/otheloUI/OthelloUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj": {
+    "/Users/derisusanto/Documents/Formulatrix/otheloUI/OthelloUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
+        "projectUniqueName": "/Users/derisusanto/Documents/Formulatrix/otheloUI/OthelloUI.csproj",
         "projectName": "OthelloUI",
-        "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
-        "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\obj\\",
+        "projectPath": "/Users/derisusanto/Documents/Formulatrix/otheloUI/OthelloUI.csproj",
+        "packagesPath": "/Users/derisusanto/.nuget/packages/",
+        "outputPath": "/Users/derisusanto/Documents/Formulatrix/otheloUI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/derisusanto/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -57,19 +57,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
+              "version": "[8.0.24, 8.0.24]"
             },
             {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.22, 8.0.22]"
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "version": "[8.0.24, 8.0.24]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
+              "version": "[8.0.24, 8.0.24]"
             }
           ],
           "frameworkReferences": {
@@ -80,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

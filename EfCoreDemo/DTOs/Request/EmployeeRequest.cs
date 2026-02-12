@@ -1,8 +1,8 @@
 namespace EfCoreDemo.DTOs.Request;
 
-    public class EmployeeInputDto
+    public class EmployeeRequest
     {
         public string Name { get; set; }         
-        public int DepartmentId { get; set; }  
+        public Guid DepartmentId { get; set; }  
     }
 
