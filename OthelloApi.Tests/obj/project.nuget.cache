@@ -61,5 +61,15 @@
     "C:\\Users\\Deri\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
     "C:\\Users\\Deri\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.22\\microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi.Tests\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi.Tests\\OthelloApi.Tests.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi.Tests\\OthelloApi.Tests.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

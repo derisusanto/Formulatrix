@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj",
+      "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
       "projectName": "OthelloUI",
-      "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj",
+      "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
       "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\obj\\",
+      "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -89,5 +89,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
+    }
+  ]
 }
