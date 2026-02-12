@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using EfCoreDemo.Data;
 using EfCoreDemo.Entities;
 using Microsoft.EntityFrameworkCore;
-using EfCoreDemo.DTOs;
+using EfCoreDemo.DTOs.Request;
+using EfCoreDemo.DTOs.Response;
 
 namespace EfCoreDemo.Controllers;
 
@@ -19,18 +20,22 @@ public class EmployeeController : ControllerBase
     }
 
     
+
 [HttpPost]
 public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
 {
-   
+  
     if (!_context.Departments.Any())
         return BadRequest("Belum ada Department. Tambahkan Department terlebih dahulu!");
 
+ 
+    var department = await _context.Departments
+        .FirstOrDefaultAsync(d => d.Id == dto.DepartmentId);
 
-    if (!_context.Departments.Any(d => d.Id == dto.DepartmentId))
+    if (department == null)
         return BadRequest("DepartmentId tidak valid.");
 
-    
+  
     var emp = new Employee
     {
         Name = dto.Name,
@@ -38,19 +43,35 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
     };
 
     _context.Employees.Add(emp);
-    await _context.SaveChangesAsync();
+    await _context.SaveChangesAsync(); 
 
-   
-    return Ok(emp);
+    
+    var empDto = new EmployeeDto
+    {
+        Id = emp.Id,
+        Name = emp.Name,
+        DepartmentId = emp.DepartmentId,
+        DepartmentName = department.Name
+    };
+
+    return Ok(empDto);
 }
-
-
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var data = await _context.Employees.ToListAsync();
         return Ok(data);
+        //  var emp = _context.Employees.ToList();
+        //  var empDto = new EmployeeDto
+        // {
+        //     Id = emp.Id,
+        //     Name = emp.Name,
+        //     DepartmentId = emp.DepartmentId,
+        //     DepartmentName = department.Name
+        // };
+
+        // return Ok(empDto);
     }
 
     [HttpGet("{id}")]
