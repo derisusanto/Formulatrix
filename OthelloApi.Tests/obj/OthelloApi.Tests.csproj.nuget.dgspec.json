@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\OthelloAPI.csproj": {
-                "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\OthelloAPI.csproj"
+              "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\OthelloApi.csproj": {
+                "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\OthelloApi.csproj"
               }
             }
           }
@@ -107,14 +107,14 @@
         }
       }
     },
-    "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\OthelloAPI.csproj": {
+    "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\OthelloApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\OthelloAPI.csproj",
-        "projectName": "OthelloAPI",
-        "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\OthelloAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\OthelloApi.csproj",
+        "projectName": "OthelloApi",
+        "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\OthelloApi.csproj",
         "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloAPI\\obj\\",
+        "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OthelloApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"

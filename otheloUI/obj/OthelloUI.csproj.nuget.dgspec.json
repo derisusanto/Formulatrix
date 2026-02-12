@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj": {}
+    "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj": {
+    "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj",
+        "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
         "projectName": "OthelloUI",
-        "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj",
+        "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
         "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\obj\\",
+        "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"

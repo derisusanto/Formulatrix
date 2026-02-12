@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HCaGaB/poKw=",
+  "dgSpecHash": "vFDsbjAZn5k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Deri\\Documents\\Formulatrix\\otheloUI\\OthelloUI.csproj",
+  "projectFilePath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Deri\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.22\\microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
     "C:\\Users\\Deri\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
