@@ -2871,19 +2871,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Deri\\.nuget\\packages\\": {}
+    "/Users/derisusanto/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\EfCoreDemo\\EfCoreDemo.csproj",
+      "projectUniqueName": "/Users/derisusanto/Documents/Formulatrix/EfCoreDemo/EfCoreDemo.csproj",
       "projectName": "EfCoreDemo",
-      "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\EfCoreDemo\\EfCoreDemo.csproj",
-      "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\EfCoreDemo\\obj\\",
+      "projectPath": "/Users/derisusanto/Documents/Formulatrix/EfCoreDemo/EfCoreDemo.csproj",
+      "packagesPath": "/Users/derisusanto/.nuget/packages/",
+      "outputPath": "/Users/derisusanto/Documents/Formulatrix/EfCoreDemo/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/derisusanto/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -2955,7 +2955,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

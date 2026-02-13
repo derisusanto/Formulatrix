@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using EfCoreDemo.Data;
 using EfCoreDemo.Entities;
 using Microsoft.EntityFrameworkCore;
+using EfCoreDemo.DTOs.Request;
+using EfCoreDemo.DTOs.Response;
 
 namespace EfCoreDemo.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/department")]
 public class DepartmentController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -18,13 +20,16 @@ public class DepartmentController : ControllerBase
 
     
     [HttpPost]
-    public async Task<IActionResult> Create(Department dept)
+    public async Task<IActionResult> Create(DepartmentRequest request)
     {
 
-    
-        _context.Departments.Add(dept);
+        var depart = new Department
+        {
+            Name = request.Name,
+        };
+        _context.Departments.Add(depart);
         await _context.SaveChangesAsync();
-        return Ok(dept);
+        return Ok(depart);
     }
 
 
@@ -37,7 +42,7 @@ public class DepartmentController : ControllerBase
 
    
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var dept = await _context.Departments.FindAsync(id);
         if (dept == null) return NotFound();

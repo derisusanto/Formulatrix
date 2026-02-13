@@ -9,7 +9,7 @@ using EfCoreDemo.DTOs.Response;
 namespace EfCoreDemo.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/employee")]
 public class EmployeeController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -22,7 +22,7 @@ public class EmployeeController : ControllerBase
     
 
 [HttpPost]
-public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
+public async Task<IActionResult> CreateEmployee(EmployeeRequest request)
 {
   
     if (!_context.Departments.Any())
@@ -30,7 +30,7 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
 
  
     var department = await _context.Departments
-        .FirstOrDefaultAsync(d => d.Id == dto.DepartmentId);
+        .FirstOrDefaultAsync(d => d.Id == request.DepartmentId);
 
     if (department == null)
         return BadRequest("DepartmentId tidak valid.");
@@ -38,15 +38,15 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
   
     var emp = new Employee
     {
-        Name = dto.Name,
-        DepartmentId = dto.DepartmentId
+        Name = request.Name,
+        DepartmentId = request.DepartmentId
     };
 
     _context.Employees.Add(emp);
     await _context.SaveChangesAsync(); 
 
     
-    var empDto = new EmployeeDto
+    var dataEmployee = new EmployeeResponse
     {
         Id = emp.Id,
         Name = emp.Name,
@@ -54,30 +54,27 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
         DepartmentName = department.Name
     };
 
-    return Ok(empDto);
+    return Ok(dataEmployee);
+    // return Ok();
 }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var data = await _context.Employees.ToListAsync();
-        return Ok(data);
-        //  var emp = _context.Employees.ToList();
-        //  var empDto = new EmployeeDto
-        // {
-        //     Id = emp.Id,
-        //     Name = emp.Name,
-        //     DepartmentId = emp.DepartmentId,
-        //     DepartmentName = department.Name
-        // };
+        var data = await _context.Employees
+                .Include(e => e.Departement)
+                .ToListAsync();
 
-        // return Ok(empDto);
+    return Ok(data);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var emp = await _context.Employees.FindAsync(id);
+        var emp = await _context.Employees
+            .Include(e => e.Departement)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
         if (emp == null) return NotFound();
 
         return Ok(emp);
@@ -85,14 +82,18 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
 
   
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Employee emp)
+    public async Task<IActionResult> Update(Guid id, EmployeeRequest request)
     {
         var existing = await _context.Employees.FindAsync(id);
+        //  var existing = await _context.Employees
+        // .Include(e => e.Department)
+        // .FirstOrDefaultAsync(e => e.Id == id);
+        
         if (existing == null) return NotFound();
 
-        existing.Name = emp.Name;
-        // existing.Position = emp.Position;
-        // existing.Salary = emp.Salary;
+        existing.Name = request.Name;
+        existing.DepartmentId = request.DepartmentId;
+
 
         await _context.SaveChangesAsync();
         return Ok(existing);
@@ -100,7 +101,7 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
 
    
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var emp = await _context.Employees.FindAsync(id);
         if (emp == null) return NotFound();
@@ -109,5 +110,16 @@ public async Task<IActionResult> CreateEmployee(EmployeeInputDto dto)
         await _context.SaveChangesAsync();
 
         return Ok();
+
+    //     var emp = await _context.Employees.FindAsync(id);
+
+    // if (emp == null)
+    //     return NotFound();
+
+    // emp.IsDeleted = true;
+
+    // await _context.SaveChangesAsync();
+
+    // return Ok();
     }
 }
