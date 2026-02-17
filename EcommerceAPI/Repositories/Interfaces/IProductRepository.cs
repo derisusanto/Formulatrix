@@ -1,16 +1,9 @@
-// using Ecommerce.Model;
+using Ecommerce.Model;
 
-// namespace Ecommerce.Repositories.Interfaces;
+namespace Ecommerce.Repositories.Interfaces;
 
-// public interface IProductRepository
-// {
-//     Task<List<Product>> GetAllAsync();
-
-//     Task<Product?> GetByIdAsync(Guid id);
-
-//     Task<Product> CreateAsync(Product product);
-
-//     Task<Product> UpdateAsync(Product product);
-
-//     Task SoftDeleteAsync(Product product);
-// }
+public interface IProductRepository
+{
+    Task<Product> AddAsync(Product product);
+    Task<List<Product>> GetAllAsync();
+}

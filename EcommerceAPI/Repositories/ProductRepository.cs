@@ -1,50 +1,39 @@
-// using Microsoft.EntityFrameworkCore;
-// using Ecommerce.Data;
-// using Ecommerce.Models;
-// using Ecommerce.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Ecommerce.Data;
+using Ecommerce.Model;
+using Ecommerce.Repositories.Interfaces;
 
-// namespace Ecommerce.Repositories;
+namespace Ecommerce.Repositories
+{
+    public class ProductRepository : IProductRepository
+    {
+        private readonly AppDbContext _context;
 
-// public class ProductRepository : IProductRepository
-// {
-//     private readonly AppDbContext _context;
+        public ProductRepository(AppDbContext context)
+        {
+            _context = context;
+        }
 
-//     public ProductRepository(AppDbContext context)
-//     {
-//         _context = context;
-//     }
+        // CREATE: sekarang return Product
+        public async Task<Product> AddAsync(Product product)
+        {
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
 
-//     public async Task<List<Product>> GetAllAsync()
-//     {
-//         return await _context.Products
-//             .Include(x => x.Category)
-//             .ToListAsync();
-//     }
+            // load relasi kalau mau mapping nanti
+            await _context.Entry(product).Reference(p => p.Category).LoadAsync();
+            await _context.Entry(product).Reference(p => p.Seller).LoadAsync();
 
-//     public async Task<Product?> GetByIdAsync(Guid id)
-//     {
-//         return await _context.Products
-//             .Include(x => x.Category)
-//             .FirstOrDefaultAsync(x => x.Id == id);
-//     }
+            return product;
+        }
 
-//     public async Task<Product> CreateAsync(Product product)
-//     {
-//         _context.Products.Add(product);
-//         await _context.SaveChangesAsync();
-//         return product;
-//     }
-
-//     public async Task<Product> UpdateAsync(Product product)
-//     {
-//         _context.Products.Update(product);
-//         await _context.SaveChangesAsync();
-//         return product;
-//     }
-
-//     public async Task SoftDeleteAsync(Product product)
-//     {
-//         product.IsDeleted = true;
-//         await _context.SaveChangesAsync();
-//     }
-// }
+        // GET ALL: tetap sama
+        public async Task<List<Product>> GetAllAsync()
+        {
+            return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Seller)
+                .ToListAsync();
+        }
+    }
+}

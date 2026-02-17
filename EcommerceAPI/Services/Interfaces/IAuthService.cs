@@ -1,8 +1,13 @@
+using Ecommerce.DTOs.Auth;
+using Ecommerce.DTOs.User;
+using Ecommerce.Common.ServiceResult;
 
-namespace Ecommerce.Service.Interface;
-public interface IAuthService
+namespace Ecommerce.Services.Interfaces
 {
-    Task<ServiceResult<AuthResponseDto>> RegisterAsync(RegisterDto registerDto);
-    Task<ServiceResult<AuthResponseDto>> LoginAsync(LoginDto loginDto);
-    Task<ServiceResult<UserDto>> GetCurrentUserAsync(string userId);
+    public interface IAuthService
+    {
+        Task<ServiceResult<AuthResponseDto>> RegisterAsync(UserRegisterDto dto);
+        Task<ServiceResult<AuthResponseDto>> LoginAsync(UserLoginDto dto);
+        Task<ServiceResult<UserResponseDto>> GetCurrentUserAsync(string userId);
+    }
 }

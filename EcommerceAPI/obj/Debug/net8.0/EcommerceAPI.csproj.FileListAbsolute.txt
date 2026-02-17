@@ -1,0 +1,9 @@
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.csproj.AssemblyReference.cache
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/rpswa.dswa.cache.json
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.AssemblyInfoInputs.cache
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.AssemblyInfo.cs
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.csproj.CoreCompileInputs.cache
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.MvcApplicationPartsAssemblyInfo.cs
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.MvcApplicationPartsAssemblyInfo.cache
+/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/Debug/net8.0/EcommerceAPI.sourcelink.json

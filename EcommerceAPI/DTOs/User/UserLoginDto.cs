@@ -1,4 +1,4 @@
-namespace Ecommerce.DTOs.user;
+namespace Ecommerce.DTOs.User;
 public class UserLoginDto
 {
     public string Email {get; set;} = "";

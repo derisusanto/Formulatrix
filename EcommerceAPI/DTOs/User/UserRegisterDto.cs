@@ -1,4 +1,4 @@
-namespace Ecommerce.DTOs.user;
+namespace Ecommerce.DTOs.User;
 public class UserRegisterDto
 {
     public string FullName {get; set;}="";
