@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+<div class="page">
+    @if (!IsAuthPage)
+    {
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    }
+
+    <main>
+        @if (!IsAuthPage)
+        {
+            <div class="top-row px-4">
+                <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            </div>
+        }
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool IsAuthPage => Nav.Uri.Contains("/login", StringComparison.OrdinalIgnoreCase) || 
+                               Nav.Uri.Contains("/register", StringComparison.OrdinalIgnoreCase);
+
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += (s, e) => StateHasChanged();
+    }
+}
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>

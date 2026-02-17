@@ -1,0 +1,126 @@
+@page "/products"
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Product Management</h1>
+    </div>
+
+    @if (!string.IsNullOrEmpty(errMsg)) {
+        <div class="alert alert-danger">@errMsg</div>
+    }
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    Create New Product
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Product Name</label>
+                        <input @bind="editProd.Name" class="form-control" placeholder="Enter name..." />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input @bind="editProd.Price" type="number" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Stock</label>
+                        <input @bind="editProd.Stock" type="number" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select @bind="editProd.CategoryId" class="form-select">
+                            <option value="@Guid.Empty">Select Category</option>
+                            @foreach (var c in cats) { <option value="@c.Id">@c.Name</option> }
+                        </select>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success w-100" @onclick="SaveProd">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- List Section -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    Existing Products
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light"><tr><th>Name</th><th>Price</th><th>Stock</th><th>Category</th></tr></thead>
+                        <tbody>
+                            @foreach (var p in prods) {
+                                <tr>
+                                    <td class="align-middle px-4">@p.Name</td>
+                                    <td class="align-middle">@p.Price.ToString("C")</td>
+                                    <td class="align-middle">@p.Stock</td>
+                                    <td class="align-middle">@p.CategoryName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    List<Category> cats = new();
+    List<Product> prods = new();
+    Product editProd = new();
+    string? errMsg;
+
+    class ProductResponseAll { [System.Text.Json.Serialization.JsonPropertyName("products")] public List<Product> Products { get; set; } = new(); }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) {
+            var token = await JS.InvokeAsync<string>("api.getToken");
+            if (string.IsNullOrEmpty(token)) { Nav.NavigateTo("/login"); return; }
+            await Load();
+            StateHasChanged();
+        }
+    }
+
+    async Task Load() { 
+        try {
+            var cRes = await JS.InvokeAsync<List<Category>>("api.fetch", "Category"); 
+            cats = cRes ?? new();
+            var pRes = await JS.InvokeAsync<ProductResponseAll>("api.fetch", "Product"); 
+            var fetchedProds = pRes?.Products ?? new();
+            foreach (var p in fetchedProds) {
+                p.CategoryName = cats.FirstOrDefault(c => c.Id == p.CategoryId)?.Name ?? "Unknown";
+            }
+            prods = fetchedProds;
+            StateHasChanged();
+        } catch (Exception ex) { 
+            errMsg = ex.Message; 
+        }
+    }
+
+    async Task SaveProd() {
+        if (string.IsNullOrWhiteSpace(editProd.Name)) { errMsg = "Name is required"; return; }
+        if (editProd.CategoryId == Guid.Empty) { errMsg = "Please select a category"; return; }
+        errMsg = null;
+        try {
+            var options = new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase };
+            var json = System.Text.Json.JsonSerializer.Serialize(editProd, options);
+
+            if (editProd.Id == Guid.Empty) 
+                await JS.InvokeVoidAsync("api.fetch", "Product", new { method = "POST", body = json }); 
+            else 
+                await JS.InvokeVoidAsync("api.fetch", $"Product/{editProd.Id}", new { method = "PUT", body = json });
+            
+            editProd = new(); 
+            await Load();
+        } catch (Exception ex) { 
+            errMsg = ex.Message; 
+        }
+    }
+}

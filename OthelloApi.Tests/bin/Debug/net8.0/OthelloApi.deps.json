@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "OthelloAPI/1.0.0": {
+      "OthelloApi/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "8.0.22",
           "Serilog.AspNetCore": "10.0.0",
@@ -15,7 +15,7 @@
           "Swashbuckle.AspNetCore": "6.6.2"
         },
         "runtime": {
-          "OthelloAPI.dll": {}
+          "OthelloApi.dll": {}
         }
       },
       "Microsoft.AspNetCore.OpenApi/8.0.22": {
@@ -380,7 +380,7 @@
     }
   },
   "libraries": {
-    "OthelloAPI/1.0.0": {
+    "OthelloApi/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

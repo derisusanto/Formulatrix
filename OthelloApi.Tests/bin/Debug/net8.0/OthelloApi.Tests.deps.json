@@ -12,7 +12,7 @@
           "Moq": "4.20.72",
           "NUnit": "4.3.2",
           "NUnit3TestAdapter": "5.0.0",
-          "OthelloAPI": "1.0.0"
+          "OthelloApi": "1.0.0"
         },
         "runtime": {
           "OthelloApi.Tests.dll": {}
@@ -911,7 +911,7 @@
           }
         }
       },
-      "OthelloAPI/1.0.0": {
+      "OthelloApi/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "8.0.22",
           "Serilog.AspNetCore": "10.0.0",
@@ -920,7 +920,7 @@
           "Swashbuckle.AspNetCore": "6.6.2"
         },
         "runtime": {
-          "OthelloAPI.dll": {
+          "OthelloApi.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -1263,7 +1263,7 @@
       "path": "system.text.json/10.0.0",
       "hashPath": "system.text.json.10.0.0.nupkg.sha512"
     },
-    "OthelloAPI/1.0.0": {
+    "OthelloApi/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

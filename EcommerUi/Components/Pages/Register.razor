@@ -1,0 +1,49 @@
+@page "/register"
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Register</h3>
+                    <EditForm Model="model" OnValidSubmit="Handle" FormName="register-form">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <InputText @bind-Value="model.FullName" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <InputText @bind-Value="model.Email" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                        </div>
+                        @if (err != null) { <div class="alert alert-danger py-2">@err</div> }
+                        <button type="submit" class="btn btn-primary w-100 py-2">Sign Up</button>
+                    </EditForm>
+                    <p class="text-center mt-3 small">Have account? <a href="/login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    RegisterModel model = new();
+    string? err;
+    async Task Handle() {
+        err = null;
+        try {
+            var res = await JS.InvokeAsync<AuthResponseResult>("api.register", model);
+            if (res.Success) Nav.NavigateTo("/", true);
+            else err = res.Message;
+        } catch (Exception ex) {
+            err = "Connection error: " + ex.Message;
+        }
+    }
+
+    class AuthResponseResult { public bool Success { get; set; } public string? Message { get; set; } }
+}
