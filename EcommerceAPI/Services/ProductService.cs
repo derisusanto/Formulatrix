@@ -57,41 +57,32 @@ public class ProductService : IProductService
         }
     }
 
-public async Task<ServiceResult<ProductResponseAll>> GetAllAsync(Guid? categoryId = null, string? sellerRole = null)
-{
-    // ambil semua produk
-    var products = await _repo.GetAllAsync();
-
-    // filter kategori
-    if (categoryId.HasValue)
-        products = products.Where(p => p.CategoryId == categoryId.Value).ToList();
-
-    // cek kosong
-    if (!products.Any())
-        return ServiceResult<ProductResponseAll>.ErrorResult("Produk tidak ditemukan");
-
-  var sellerEntity = await _userManager.FindByIdAsync(products.First().SellerId.ToString());
-// var roles = await _userManager.GetRolesAsync(sellerEntity);
-    
-    // Mapping ke DTO
-    var sellerDto = new UserResponseDto
+    public async Task<ServiceResult<ProductResponseAll>> GetAllAsync(Guid? categoryId = null, string? sellerRole = null)
     {
-        Id = sellerEntity.Id,
-        FullName = sellerEntity.FullName ?? "",
-        Email = sellerEntity.Email ?? "",
-        CreatedAt = sellerEntity.CreatedAt,
-        // Roles = roles.ToList() // semua role seller
-    };
+        var products = await _repo.GetAllAsync();
 
-    var productDtos = _mapper.Map<List<ProductResponseDto>>(products);
+        if (categoryId.HasValue)
+            products = products.Where(p => p.CategoryId == categoryId.Value).ToList();
 
-    var response = new ProductResponseAll
-    {
-        Seller = sellerDto,
-        Products = productDtos
-    };
+        var productDtos = _mapper.Map<List<ProductResponseDto>>(products);
+        var response = new ProductResponseAll { Products = productDtos };
 
-    return ServiceResult<ProductResponseAll>.SuccessResult(response, "Data produk berhasil diambil");
-}
+        if (products.Any())
+        {
+            var sellerEntity = await _userManager.FindByIdAsync(products.First().SellerId.ToString());
+            if (sellerEntity != null)
+            {
+                response.Seller = new UserResponseDto
+                {
+                    Id = sellerEntity.Id,
+                    FullName = sellerEntity.FullName ?? "",
+                    Email = sellerEntity.Email ?? "",
+                    CreatedAt = sellerEntity.CreatedAt
+                };
+            }
+        }
+
+        return ServiceResult<ProductResponseAll>.SuccessResult(response, "Data produk berhasil diambil");
+    }
 
 }

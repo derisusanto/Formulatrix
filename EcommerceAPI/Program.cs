@@ -189,7 +189,7 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthentication(); // JWT auth harus sebelum Authorization
