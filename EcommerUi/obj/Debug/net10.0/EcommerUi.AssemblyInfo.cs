@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EcommerUi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb0e4a5a777e5466714aba1c3a10d469bffcbb53")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98d51601c5640eb40f28b1185f975a0979091cd1")]
 [assembly: System.Reflection.AssemblyProductAttribute("EcommerUi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EcommerUi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

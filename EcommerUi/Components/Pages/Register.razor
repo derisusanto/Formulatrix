@@ -10,8 +10,12 @@
                     <h3 class="text-center mb-4">Register</h3>
                     <EditForm Model="model" OnValidSubmit="Handle" FormName="register-form">
                         <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <InputText @bind-Value="model.FullName" class="form-control" />
+                            <label class="form-label">First Name</label>
+                            <InputText @bind-Value="model.FirstName" class="form-control" />
+                        </div>
+                           <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <InputText @bind-Value="model.LastName" class="form-control" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
@@ -20,6 +24,10 @@
                         <div class="mb-3">
                             <label class="form-label">Password</label>
                             <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <InputText @bind-Value="model.ConfirmPassword" type="password" class="form-control" />
                         </div>
                         @if (err != null) { <div class="alert alert-danger py-2">@err</div> }
                         <button type="submit" class="btn btn-primary w-100 py-2">Sign Up</button>
