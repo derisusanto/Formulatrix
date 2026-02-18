@@ -3293,19 +3293,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/derisusanto/.nuget/packages/": {}
+    "C:\\Users\\Deri\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/EcommerceAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Deri\\Documents\\Formulatrix\\EcommerceAPI\\EcommerceAPI.csproj",
       "projectName": "EcommerceAPI",
-      "projectPath": "/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/EcommerceAPI.csproj",
-      "packagesPath": "/Users/derisusanto/.nuget/packages/",
-      "outputPath": "/Users/derisusanto/Documents/Formulatrix/EcommerceAPI/obj/",
+      "projectPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\EcommerceAPI\\EcommerceAPI.csproj",
+      "packagesPath": "C:\\Users\\Deri\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Deri\\Documents\\Formulatrix\\EcommerceAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/derisusanto/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Deri\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -3395,7 +3395,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

@@ -47,41 +47,48 @@ public class ProductService : IProductService
         // Mapping entity kembali ke DTO untuk response
         var productDto = _mapper.Map<ProductResponseDto>(product);
         // Kembalikan response sukses
-        return ServiceResult<ProductResponseDto>.SuccessResult(productDto, "Produk berhasil dibuat");
+        return ServiceResult<ProductResponseDto>.SuccessResult(productDto, "Product created successfully");
     }
     catch (Exception ex)
     {
         // Jika terjadi error, kembalikan response gagal
-        return ServiceResult<ProductResponseDto>.ErrorResult($"Gagal membuat produk: {ex.Message}");
+        return ServiceResult<ProductResponseDto>.ErrorResult($"Failed to create product : {ex.Message}");
     }
     }
 
+   
     public async Task<ServiceResult<ProductResponseAll>> GetAllAsync(Guid? categoryId = null, string? sellerRole = null)
     {
         var products = await _repo.GetAllAsync();
 
+        // filter kategori jika ada
         if (categoryId.HasValue)
             products = products.Where(p => p.CategoryId == categoryId.Value).ToList();
 
+        // mapping produk
         var productDtos = _mapper.Map<List<ProductResponseDto>>(products);
-        var response = new ProductResponseAll { Products = productDtos };
 
-        if (products.Any())
+        // ambil seller dari product pertama jika ada
+        UserResponseDto? sellerDto = null;
+        if (products.FirstOrDefault() is { } firstProduct)
         {
-            var sellerEntity = await _userManager.FindByIdAsync(products.First().SellerId.ToString());
+            var sellerEntity = await _userManager.FindByIdAsync(firstProduct.SellerId.ToString());
+            var roles = await _userManager.GetRolesAsync(sellerEntity);
+            
+            // Console.WriteLine($"Entity => {roles}");
             if (sellerEntity != null)
             {
-                response.Seller = new UserResponseDto
-                {
-                    Id = sellerEntity.Id,
-                    FullName = sellerEntity.FullName ?? "",
-                    Email = sellerEntity.Email ?? "",
-                    CreatedAt = sellerEntity.CreatedAt
-                };
+                sellerDto = _mapper.Map<UserResponseDto>(sellerEntity);
             }
         }
 
-        return ServiceResult<ProductResponseAll>.SuccessResult(response, "Data produk berhasil diambil");
+        var response = new ProductResponseAll
+        {
+            Products = productDtos ?? [],
+            Seller = sellerDto
+        };
+
+        return ServiceResult<ProductResponseAll>.SuccessResult(response, "Product data retrieved successfully");
     }
 
 }

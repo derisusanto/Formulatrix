@@ -33,7 +33,8 @@ public static class IdentitySeed
             {
                 UserName = "admin",
                 Email = adminEmail,
-                FullName = "System Admin",
+                FirstName = "System",
+                LastName = "Admin",
                 EmailConfirmed = true,
                 CreatedAt = DateTime.UtcNow
             };

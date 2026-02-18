@@ -38,32 +38,32 @@ public class AuthService : IAuthService
     // REGISTER PUBLIC: bisa dipanggil controller
     public async Task<ServiceResult<AuthResponseDto>> RegisterAsync(UserRegisterDto dto)
     {
-        // cek user, create, validate password, dll
-        var user = _mapper.Map<User>(dto);
+    //  Map DTO ke User entity (FirstName, LastName, Email, dsb)
+    var user = _mapper.Map<User>(dto);
 
-        user.UserName = string.IsNullOrWhiteSpace(dto.FullName)
-        ? dto.Email.Split('@')[0] // fallback kalau FullName kosong
-        : new string(dto.FullName.Where(char.IsLetterOrDigit).ToArray());
-        
-        //Membuat user baru ke database + otomatis hash password
-        var result = await _userManager.CreateAsync(user, dto.Password);
+    //  Generate UserName unik dari email + kode random
+    user.UserName = $"{dto.Email.Split('@')[0]}{Guid.NewGuid().ToString("N").Substring(0, 6)}";
 
+    // Create user + hash password otomatis
+    var result = await _userManager.CreateAsync(user, dto.Password);
+    if (!result.Succeeded)
+        return ServiceResult<AuthResponseDto>.ErrorResult(
+            string.Join(", ", result.Errors.Select(e => e.Description))
+        );
 
-        if (!result.Succeeded)
-            return ServiceResult<AuthResponseDto>.ErrorResult(
-                string.Join(", ", result.Errors.Select(e => e.Description))
-            );
+    //  Assign role default "Seller"
+    var roleResult = await _userManager.AddToRoleAsync(user, "Seller");
+    if (!roleResult.Succeeded)
+        return ServiceResult<AuthResponseDto>.ErrorResult("Failed to assign role");
 
-        var roleResult = await _userManager.AddToRoleAsync(user, "Seller");
+    //  Generate JWT token (private method)
+    var token = await GenerateJwtToken(user);
 
-        if (!roleResult.Succeeded)
-            return ServiceResult<AuthResponseDto>.ErrorResult("Gagal assign role");
+    //  Buat response DTO (pakai AutoMapper juga bisa)
+    var response = _mapper.Map<AuthResponseDto>(token); // mapping token + user, tergantung mapping config
 
-        // generate token dengan method private
-        var token = await GenerateJwtToken(user);
+    return ServiceResult<AuthResponseDto>.SuccessResult(response, "Registration Successful");
 
-
-        return ServiceResult<AuthResponseDto>.SuccessResult(token, "Registrasi berhasil");
     }
 
     // LOGIN PUBLIC: bisa dipanggil controller
@@ -71,14 +71,14 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null) 
-            return ServiceResult<AuthResponseDto>.ErrorResult("Email atau password salah");
+            return ServiceResult<AuthResponseDto>.ErrorResult("Incorrect email or password");
 
         var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
         if (!check.Succeeded) 
-            return ServiceResult<AuthResponseDto>.ErrorResult("Email atau password salah");
+            return ServiceResult<AuthResponseDto>.ErrorResult("Incorrect email or password");
 
         var token = await GenerateJwtToken(user);
-        return ServiceResult<AuthResponseDto>.SuccessResult(token, "Login berhasil");
+        return ServiceResult<AuthResponseDto>.SuccessResult(token, "Login Successful");
     }
 
     // PRIVATE: internal helper untuk bikin JWT
@@ -125,7 +125,7 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
-            return ServiceResult<UserResponseDto>.ErrorResult("User tidak ditemukan");
+            return ServiceResult<UserResponseDto>.ErrorResult("User Not Found");
 
         var userDto = _mapper.Map<UserResponseDto>(user);
         var roles = await _userManager.GetRolesAsync(user);

@@ -10,6 +10,6 @@ namespace Ecommerce.DTOs.Product
         public int Stock { get; set; }
         public Guid CategoryId { get; set; }
 
-
+        
     }
 }
