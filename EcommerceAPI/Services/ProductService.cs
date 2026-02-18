@@ -27,34 +27,33 @@ public class ProductService : IProductService
     {
         _repo = repo;
         _mapper = mapper;
-        _validator = validator;
         _userManager = userManager;
     }
 
     public async Task<ServiceResult<ProductResponseDto>> CreateAsync(CreateProductDto dto, Guid sellerId)
     {
-        // Validasi input
-        var validation = await _validator.ValidateAsync(dto);
-        if (!validation.IsValid)
-            return ServiceResult<ProductResponseDto>.ErrorResult(
-                string.Join(", ", validation.Errors.Select(e => e.ErrorMessage))
-            );
+        // Mapping DTO ke Entity
+    var product = _mapper.Map<Product>(dto);
 
-        var product = _mapper.Map<Product>(dto);
-        product.Id = Guid.NewGuid();
-        product.SellerId = sellerId;
+    // Set Id baru dan SellerId
+    product.Id = Guid.NewGuid();
+    product.SellerId = sellerId;
 
-        try
-        {
-            await _repo.AddAsync(product);
+    try
+    {
+        // Simpan ke database
+        await _repo.AddAsync(product);
 
-            var productDto = _mapper.Map<ProductResponseDto>(product);
-            return ServiceResult<ProductResponseDto>.SuccessResult(productDto, "Produk berhasil dibuat");
-        }
-        catch (Exception ex)
-        {
-            return ServiceResult<ProductResponseDto>.ErrorResult($"Gagal membuat produk: {ex.Message}");
-        }
+        // Mapping entity kembali ke DTO untuk response
+        var productDto = _mapper.Map<ProductResponseDto>(product);
+        // Kembalikan response sukses
+        return ServiceResult<ProductResponseDto>.SuccessResult(productDto, "Produk berhasil dibuat");
+    }
+    catch (Exception ex)
+    {
+        // Jika terjadi error, kembalikan response gagal
+        return ServiceResult<ProductResponseDto>.ErrorResult($"Gagal membuat produk: {ex.Message}");
+    }
     }
 
     public async Task<ServiceResult<ProductResponseAll>> GetAllAsync(Guid? categoryId = null, string? sellerRole = null)

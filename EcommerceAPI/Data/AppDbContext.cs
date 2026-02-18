@@ -5,6 +5,7 @@ using Ecommerce.Model;
 
 namespace Ecommerce.Data;
 
+// DbContext utama aplikasi + support ASP.NET Identity (User & Role)
 public class AppDbContext 
     : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
@@ -12,97 +13,57 @@ public class AppDbContext
         : base(options)
     {
     }
-
+    //set data ke database produk dan category
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
 
 
     // MODEL CONFIGURATION
-    protected override void OnModelCreating(ModelBuilder builder)
+  protected override void OnModelCreating(ModelBuilder builder)
+{
+    // Panggil konfigurasi Identity default
+    base.OnModelCreating(builder);
+
+    // CONFIGURE PRODUCT
+    builder.Entity<Product>(entity =>
     {
-        base.OnModelCreating(builder);
+        // Set primary key (sebenarnya EF otomatis tahu kalau namanya Id)
+        entity.HasKey(p => p.Id);
 
-        // PRODUCT
-        // builder.Entity<Product>(entity =>
-        // {
-        //     entity.Property(x => x.Name)
-        //         .IsRequired()
-        //         .HasMaxLength(150);
+        // Name wajib diisi & maksimal 30 karakter
+        entity.Property(p => p.Name)
+            .IsRequired()
+            .HasMaxLength(30);
 
-        //     entity.Property(x => x.Price)
-        //         .HasPrecision(18, 2);
+        // Atur precision decimal supaya tidak error di database
+        entity.Property(p => p.Price)
+            .HasPrecision(18, 2);
 
-        //     entity.HasOne(x => x.Category)
-        //         .WithMany(c => c.Products)
-        //         .HasForeignKey(x => x.CategoryId)
-        //         .OnDelete(DeleteBehavior.Restrict);
+        // Relasi Product → Category
+        // Satu Product punya satu Category
+        // Satu Category punya banyak Product
+        entity.HasOne(p => p.Category)
+            .WithMany() // TANPA c => c.Products
+            .HasForeignKey(p => p.CategoryId);
+            // Restrict = tidak boleh hapus Category kalau masih ada Product
 
-        //     entity.HasQueryFilter(x => !x.IsDeleted);
-        // });
+        // Relasi Product → Seller (User)
+        entity.HasOne(p => p.Seller)
+            .WithMany()
+            .HasForeignKey(p => p.SellerId)
+            .OnDelete(DeleteBehavior.Cascade);
+            // Cascade = kalau user dihapus, product ikut terhapus
+    });
 
-
-        // CATEGORY
-        // builder.Entity<Category>(entity =>
-        // {
-        //     entity.Property(x => x.Name)
-        //         .IsRequired()
-        //         .HasMaxLength(100);
-
-        //     entity.HasQueryFilter(x => !x.IsDeleted);
-        // });
-
-
-        // ORDER
-        // builder.Entity<Order>(entity =>
-        // {
-        //     entity.Property(x => x.TotalPrice)
-        //         .HasPrecision(18, 2);
-
-        //     entity.HasOne(x => x.User)
-        //         .WithMany(u => u.Orders)
-        //         .HasForeignKey(x => x.UserId)
-        //         .OnDelete(DeleteBehavior.Cascade);
-
-        //     entity.HasQueryFilter(x => !x.IsDeleted);
-        // });
-
-
-        // ORDER ITEM      
-        // builder.Entity<OrderItem>(entity =>
-        // {
-        //     entity.Property(x => x.Price)
-        //         .HasPrecision(18, 2);
-
-        //     entity.HasOne(x => x.Order)
-        //         .WithMany(o => o.Items)
-        //         .HasForeignKey(x => x.OrderId);
-
-        //     entity.HasOne(x => x.Product)
-        //         .WithMany()
-        //         .HasForeignKey(x => x.ProductId);
-
-        //     entity.HasQueryFilter(x => !x.IsDeleted);
-        // });
-  
-    }
-
-
-  
-    // AUTO AUDIT 
-    // public override async Task<int> SaveChangesAsync(
-    //     CancellationToken cancellationToken = default)
-    // {
-    //     var entries = ChangeTracker.Entries<BaseEntity>();
-
-    //     foreach (var entry in entries)
-    //     {
-    //         if (entry.State == EntityState.Modified)
-    //         {
-    //             entry.Entity.UpdatedAt = DateTime.UtcNow;
-    //         }
-    //     }
-
-    //     return await base.SaveChangesAsync(cancellationToken);
-    // }
-
+    // CONFIGURE CATEGORY
+    builder.Entity<Category>(entity =>
+    {
+        // Primary key
+        entity.HasKey(c => c.Id);
+        // Name wajib & maksimal 100 karakter
+        entity.Property(c => c.Name)
+            .IsRequired()
+            .HasMaxLength(20);
+    });
+}
 }

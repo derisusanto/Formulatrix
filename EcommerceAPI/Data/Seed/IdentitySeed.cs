@@ -11,9 +11,7 @@ public static class IdentitySeed
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
         var userManager = services.GetRequiredService<UserManager<User>>();
 
-        // =========================
-        // 1️⃣ CREATE ROLES
-        // =========================
+        // CREATE ROLES
         string[] roles = { "Admin", "Seller", "User" };
 
         foreach (var role in roles)
@@ -24,9 +22,8 @@ public static class IdentitySeed
             }
         }
 
-        // =========================
-        // 2️⃣ OPTIONAL DEFAULT ADMIN
-        // =========================
+        // 2OPTIONAL DEFAULT ADMIN
+
         var adminEmail = "admin@ecommerce.com";
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 

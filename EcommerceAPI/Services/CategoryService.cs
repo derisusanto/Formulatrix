@@ -46,10 +46,17 @@ public class CategoryService : ICategoryService
         var category = await _repository.GetByIdAsync(id);
         if (category == null) return ServiceResult<CategoryResponseDto>.ErrorResult("Category not found");
 
-        _mapper.Map(dto, category);
+        // Mapping DTO → Entity (update)
+        var updatedCategory = _mapper.Map(dto, category); 
+        // Simpan ke database
         await _repository.UpdateAsync(category);
 
-        return ServiceResult<CategoryResponseDto>.SuccessResult(_mapper.Map<CategoryResponseDto>(category));
+        // Mapping Entity → DTO untuk response
+        var categoryDto = _mapper.Map<CategoryResponseDto>(category);
+
+        // Return hasil sukses
+        return ServiceResult<CategoryResponseDto>.SuccessResult(categoryDto, "Category berhasil diupdate");
+
     }
 
     public async Task<ServiceResult<bool>> DeleteAsync(Guid id)

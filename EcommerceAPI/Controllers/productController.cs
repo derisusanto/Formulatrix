@@ -28,6 +28,7 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
+        //panggil validator
         var validationResult = await _productValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
@@ -36,22 +37,25 @@ public class ProductController : ControllerBase
         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userIdString == null) return Unauthorized();
 
+        //conver dari jadi guid
         Guid userId = Guid.Parse(userIdString);
+        //panggil service layer CreateAsync
         var result = await _productService.CreateAsync(dto, userId);
 
+        //gagal kembalikan ini
         if (!result.Success) return BadRequest(result);
-
+        //sukses kembalikan ini
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
-    {
-        // For now, let's assume we need this for CreatedAtAction. 
-        // We'll need to define it in IProductService too if not already there.
-        // If not there, we'll implement a temporary list filter or just return 200.
-        return Ok(new { success = true, message = "Endpoint stub for redirection" });
-    }
+    // [HttpGet("{id}")]
+    // public async Task<IActionResult> GetById(Guid id)
+    // {
+    //     // For now, let's assume we need this for CreatedAtAction. 
+    //     // We'll need to define it in IProductService too if not already there.
+    //     // If not there, we'll implement a temporary list filter or just return 200.
+    //     return Ok(new { success = true, message = "Endpoint stub for redirection" });
+    // }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()

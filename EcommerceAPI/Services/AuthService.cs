@@ -25,9 +25,13 @@ public class AuthService : IAuthService
         IConfiguration configuration,
         IMapper mapper)
     {
+        //Kelola user & role
         _userManager = userManager;
+        //Cek login & password
         _signInManager = signInManager;
+        //Ambil setting (JWT secret)
         _configuration = configuration;
+        // Convert DTO & Entity
         _mapper = mapper;
     }
 
@@ -41,8 +45,8 @@ public class AuthService : IAuthService
         ? dto.Email.Split('@')[0] // fallback kalau FullName kosong
         : new string(dto.FullName.Where(char.IsLetterOrDigit).ToArray());
         
-        var result = await 
-        _userManager.CreateAsync(user, dto.Password);
+        //Membuat user baru ke database + otomatis hash password
+        var result = await _userManager.CreateAsync(user, dto.Password);
 
 
         if (!result.Succeeded)

@@ -10,8 +10,10 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-
+        // ubah satu object ke object lain
+        //ubah dari dto ke user
         CreateMap<UserRegisterDto, User>();
+        //ubah dari user ke dto
         CreateMap<User, UserResponseDto>();
         
         CreateMap<Product, ProductResponseDto>();
