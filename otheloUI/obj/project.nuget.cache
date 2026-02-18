@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "FAd803XdMf8=",
+  "dgSpecHash": "vFDsbjAZn5k=",
   "success": true,
-  "projectFilePath": "/Users/derisusanto/Documents/Formulatrix/OtheloUI/OthelloUI.csproj",
+  "projectFilePath": "C:\\Users\\Deri\\Documents\\Formulatrix\\OtheloUI\\OthelloUI.csproj",
   "expectedPackageFiles": [
-    "/Users/derisusanto/.nuget/packages/microsoft.netcore.app.ref/8.0.24/microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
-    "/Users/derisusanto/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.24/microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512",
-    "/Users/derisusanto/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.24/microsoft.netcore.app.host.osx-arm64.8.0.24.nupkg.sha512"
+    "C:\\Users\\Deri\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.22\\microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Deri\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Deri\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.22\\microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Deri\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.22\\microsoft.netcore.app.host.win-x64.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }
