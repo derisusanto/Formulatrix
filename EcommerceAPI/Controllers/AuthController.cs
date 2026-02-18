@@ -37,7 +37,8 @@ namespace Ecommerce.Controllers
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(ServiceResult<UserResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors)));
+                var ErrorResponse = ServiceResult<UserResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors));
+                return BadRequest(ErrorResponse);
             }
 
             // Panggil service untuk register
@@ -62,8 +63,8 @@ namespace Ecommerce.Controllers
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(ServiceResult<UserResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors)));
-            }
+                var ErrorResponse = ServiceResult<UserResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors));
+                return BadRequest(ErrorResponse);  }
 
             // Panggil service untuk login
             var result = await _authService.LoginAsync(loginDto);

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.DTOs.Product;
 using Ecommerce.Services.Interfaces;
+using Ecommerce.Common.ServiceResult;
 using FluentValidation;
 
 namespace Ecommerce.Controllers;
@@ -30,9 +31,11 @@ public class ProductController : ControllerBase
     {
         //panggil validator
         var validationResult = await _productValidator.ValidateAsync(dto);
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
+        if (!validationResult.IsValid){
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                var ErrorResponse = ServiceResult<ProductResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors));
+                return BadRequest(ErrorResponse);
+            }
         // Ambil userId dari token
         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userIdString == null) return Unauthorized();
@@ -48,14 +51,7 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetById(Guid id)
-    // {
-    //     // For now, let's assume we need this for CreatedAtAction. 
-    //     // We'll need to define it in IProductService too if not already there.
-    //     // If not there, we'll implement a temporary list filter or just return 200.
-    //     return Ok(new { success = true, message = "Endpoint stub for redirection" });
-    // }
+   
 
     [HttpGet]
     public async Task<IActionResult> GetAll()

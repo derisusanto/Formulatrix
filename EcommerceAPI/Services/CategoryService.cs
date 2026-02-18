@@ -22,8 +22,8 @@ public class CategoryService : ICategoryService
     {
         var category = _mapper.Map<Category>(dto);
         await _repository.AddAsync(category);
-
-        return ServiceResult<CategoryResponseDto>.SuccessResult(_mapper.Map<CategoryResponseDto>(category));
+        var data = _mapper.Map<CategoryResponseDto>(category);
+        return ServiceResult<CategoryResponseDto>.SuccessResult(data);
     }
 
     public async Task<ServiceResult<List<CategoryResponseDto>>> GetAllAsync()

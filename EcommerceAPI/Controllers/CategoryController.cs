@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.DTOs.Category;
 using Ecommerce.Services.Interfaces;
+using Ecommerce.Common.ServiceResult;
 using FluentValidation;
 
 namespace Ecommerce.Controllers;
@@ -28,8 +29,12 @@ public class CategoryController : ControllerBase
     {
         var validationResult = await _categoryValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
-        {
-            return BadRequest(validationResult.Errors);
+        {   
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                var errorRespons = ServiceResult<CategoryResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors));
+                return BadRequest(errorRespons);
+            
+            // return BadRequest(validationResult.Errors);
         }
 
         var result = await _categoryService.CreateAsync(dto);
@@ -62,7 +67,9 @@ public class CategoryController : ControllerBase
         var validationResult = await _categoryValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                var ErrorResponse = ServiceResult<CategoryResponseDto>.ErrorResult("Validation failed: " + string.Join(", ", errors));
+                return BadRequest(ErrorResponse);
         }
 
         var result = await _categoryService.UpdateAsync(id, dto);
